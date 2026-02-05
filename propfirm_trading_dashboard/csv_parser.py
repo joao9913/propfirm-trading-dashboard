@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def load_csv_file(path: str):
     df = pd.read_csv(path, encoding='utf-16', sep='\t')
     return df

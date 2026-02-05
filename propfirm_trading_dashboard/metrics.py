@@ -1,3 +1,5 @@
+import pandas as pd
+
 class MetricsCalculator:
     def __init__(self, df):
         self.df = df
