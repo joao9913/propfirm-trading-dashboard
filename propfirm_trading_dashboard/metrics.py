@@ -6,8 +6,8 @@ class MetricsCalculator:
     
     def calculate_metrics(self, phase_type: str):
         dispatch_types = {
-        "phase1": self._calculate_metrics_phase1,
-        "phase2": self._calculate_metrics_phase2,
+        "phase1": self._calculate_metrics_phase1_2,
+        "phase2": self._calculate_metrics_phase1_2,
         "phase3": self._calculate_metrics_phase3,
         "challenge": self._calculate_metrics_challenge,
         "funded": self._calculate_metrics_funded,
@@ -20,11 +20,19 @@ class MetricsCalculator:
 
 
     #Private methods for calculating metrics depending on phase
-    def _calculate_metrics_phase1(self):
-        print("Calculating Phase 1")
+    def _calculate_metrics_phase1_2(self):
+        self.df["Duration"] = self.df["Duration"].astype(float)
+        outcome_series = self.df["Outcome"]
 
-    def _calculate_metrics_phase2(self):
-        print("Calculating Phase 2")
+        number_passed = (outcome_series == "Passed").sum()
+        number_failed = (outcome_series == "Failed").sum()
+        total_outcomes = number_failed + number_passed
+        winrate = round((number_passed / total_outcomes) * 100, 2) if total_outcomes else 0
+        average_duration = round(self.df["Duration"].mean(), 2) if total_outcomes else 0
+        average_duration_passed = round(self.df[outcome_series == "Passed"]["Duration"].mean(), 2)
+        average_duration_failed = round(self.df[outcome_series == "Failed"]["Duration"].mean(), 2)
+
+        efficiency_ratio = round(winrate / average_duration, 2)
 
     def _calculate_metrics_phase3(self):
         print("Calculating Phase 3")
@@ -34,3 +42,6 @@ class MetricsCalculator:
 
     def _calculate_metrics_funded(self):
         print("Calculating Funded")
+
+    def _calculate_consecutive_metrics(self):
+        print("calculate consecutive metrics")
