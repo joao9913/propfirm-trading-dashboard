@@ -12,4 +12,4 @@ validate_columns(df, filename)
 #Calculate metrics of csv file
 calculator = mc(df)
 
-calculator.calculate_metrics(phase_type)
+print(calculator.calculate_metrics(phase_type))

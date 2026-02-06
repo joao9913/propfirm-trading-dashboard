@@ -37,6 +37,23 @@ class MetricsCalculator:
         average_cons_wins = round(passed_group.mean(), 2) if not passed_group.empty else 0
         average_cons_losses = round(failed_group.mean(), 2) if not failed_group.empty else 0
         efficiency_ratio = round(winrate / average_duration, 2)
+
+        metrics_dict = {
+            "Number Passed": number_passed,
+            "Number Failed": number_failed,
+            "Total Outcomes": total_outcomes,
+            "Winrate": winrate,
+            "Average Duration": average_duration,
+            "Average Duration Passed": average_duration_passed,
+            "Average Duration Failed": average_duration_failed,
+            "Max Consecutive Passed": max_cons_wins,
+            "Max Consecutive Losses": max_cons_losses,
+            "Average Consecutive Passed": average_cons_wins,
+            "Average Consecutive Failed": average_cons_losses,
+            "Efficiency Ratio": efficiency_ratio,
+        }
+
+        return metrics_dict
         
     def _calculate_metrics_phase3(self):
         self.df["Duration"] = self.df["Duration"].astype(float)
@@ -65,6 +82,27 @@ class MetricsCalculator:
         total_gross_loss = number_failed * cost_per_challenge
         profit_factor = round(total_profit_payouts / total_gross_loss, 2) if total_gross_loss != 0 else float('inf')
         profitability_ratio = round(((winrate / 100 * average_per_payout) / cost_per_challenge) * 10, 2)
+
+        metrics_dict = {
+            "Number Payouts": number_payouts,
+            "Number Failed": number_failed,
+            "Total Outcomes": total_outcomes,
+            "Winrate": winrate,
+            "Average Duration": average_duration,
+            "Average Duration Payout": average_payout_duration,
+            "Average Duration Failed": average_failed_duration,
+            "Max Consecutive Payouts": max_cons_payouts,
+            "Max Consecutive Losses": max_cons_losses,
+            "Average Consecutive Payouts": average_cons_payouts,
+            "Average Consecutive Failed": average_cons_losses,
+            "Average Profit Per Payout": average_per_payout,
+            "Total Profit Payouts": total_profit_payouts,
+            "Total Gross Loss": total_gross_loss,
+            "Profit Factor": profit_factor,
+            "Profitability Ratio": profitability_ratio,
+        }
+
+        return metrics_dict
     
     def _calculate_metrics_challenge(self):
         df = self.df.copy().reset_index(drop = False).rename(columns={"index": "_row_index"})
@@ -132,6 +170,25 @@ class MetricsCalculator:
         failed_p1_percentage = round((failed_p1_count / total_failed_challenges) * 100, 2) if total_failed_challenges else 0
         failed_p2_percentage = round((failed_p2_count / total_failed_challenges) * 100, 2) if total_failed_challenges else 0
         efficiency_ratio = round(winrate / average_duration_challenge, 2)
+
+        metrics_dict = {
+            "Total Number Challenges": total_challenges,
+            "Total Passed Challenges": total_passed_challenges,
+            "Total Failed Challenges": total_failed_challenges,
+            "Winrate": winrate,
+            "Average Duration Challenge": average_duration_challenge,
+            "Average Duration Passed": average_duration_passed,
+            "Average Duration Failed": average_duration_failed,
+            "Max Consecutive Passed": max_cons_wins,
+            "Max Consecutive Losses": max_cons_losses,
+            "Average Consecutive Passed": average_cons_wins,
+            "Average Consecutive Losses": average_cons_losses,
+            "Failed Phase 1 Percentage": failed_p1_percentage,
+            "Failed Phase 2 Percentage": failed_p2_percentage,
+            "Efficiency Ratio": efficiency_ratio
+        }
+
+        return metrics_dict
 
     def _calculate_metrics_funded(self):
         df = self.df.copy()
@@ -223,6 +280,35 @@ class MetricsCalculator:
         challenge_efficiency_ratio = round(average_total_profit_per_challenge / total_failed_challenges, 2)
         overall_risk_adjusted_return = round(challenge_efficiency_ratio * profitability_ratio_monthly, 2)
 
+        metrics_dict = {
+            "Number Passed Challenges": total_passed_challenges,
+            "Number Failed Challenges": total_failed_challenges,
+            "Challenge Winrate": challenge_winrate,
+            "Payout Winrate": payout_winrate,
+            "Average Duration Total": average_duration_total,
+            "Average Duration Passed": average_duration_passed,
+            "Average Duration Failed": average_duration_failed,
+            "Max Consecutive Passed Challenges": max_cons_wins,
+            "Max Consecutive Failed Challenges": max_cons_losses,
+            "Average Consecutive Passed Challenges": average_cons_wins,
+            "Average Consecutive Failed Challenges": average_cons_losses,
+            "Max Consecutive Payouts": max_cons_payouts_per_challenge,
+            "Average Payouts Per Challenge": average_cons_payouts_per_challenge,
+            "Average Profit Per Payout": average_profit_per_payout,
+            "Average Profit Per Challenge": average_total_profit_per_challenge,
+            "Winning Months": winning_months,
+            "Losing Months": losing_months,
+            "Monthly Winrate": monthly_winrate,
+            "Average Monthly Profit": average_monthly_profit,
+            "Average Monthly Loss": average_monthly_loss,
+            "Monthly W/L Ratio": monthly_wl_ratio,
+            "Challenge Efficiency": challenge_efficiency_ratio,
+            "Overall Risk Adjusted Returns": overall_risk_adjusted_return,
+            "Profitability Ratio Payout": profitability_ratio_payout,
+            "Profitability Ratio Monthly": profitability_ratio_monthly
+        }
+
+        return metrics_dict
 
     def _calculate_consecutive_metrics(self, series, outcome):
         mask = series == outcome
