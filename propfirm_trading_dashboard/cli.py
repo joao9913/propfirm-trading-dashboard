@@ -1,7 +1,7 @@
 from csv_parser import load_csv_file, validate_columns
 from metrics import MetricsCalculator as mc
 
-phase_type = "phase1"
+phase_type = "challenge"
 filename = phase_type + ".csv"
 path = "data/" + filename
 
