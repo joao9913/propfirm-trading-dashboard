@@ -42,6 +42,8 @@ p3_average_challenge_passed_duration
 p3_average_challenge_failed_duration
 p3_max_cons_payouts
 p3_max_cons_failed
+p3_average_max_cons_payouts
+p3_average_max_cons_failed
 p3_average_profit_payout
 p3_total_profit_payouts
 p3_total_loss_payouts
@@ -86,4 +88,20 @@ f_payout_winrate
 f_max_cons_payouts
 f_average_payouts_challenge
 f_average_profit_payout
-f_proftability_ratio
+f_profitability_ratio
+
+--- MONTHLY ---
+
+m_winning_months
+m_losing_months
+m_monthly_winrate
+m_average_monthly_pnl
+m_average_monthly_profit
+m_average_monthly_loss
+m_max_cons_winning_months
+m_max_cons_losing_months
+m_average_cons_winning_months
+m_average_cons_losing_months
+m_monthly_wl_ratio
+m_monthly_stability_return_ratio
+m_overall_risk_adjusted_returns

@@ -25,32 +25,32 @@ class MetricsCalculator:
         passed_group = self._calculate_consecutive_metrics(outcome_series, "Passed")
         failed_group = self._calculate_consecutive_metrics(outcome_series, "Failed")
 
-        number_passed = (outcome_series == "Passed").sum()
-        number_failed = (outcome_series == "Failed").sum()
-        total_outcomes = number_failed + number_passed
-        winrate = round((number_passed / total_outcomes) * 100, 2) if total_outcomes else 0
-        average_duration = round(self.df["Duration"].mean(), 2) if total_outcomes else 0
-        average_duration_passed = round(self.df[outcome_series == "Passed"]["Duration"].mean(), 2)
-        average_duration_failed = round(self.df[outcome_series == "Failed"]["Duration"].mean(), 2)
-        max_cons_wins = passed_group.max() if not passed_group.empty else 0
-        max_cons_losses = failed_group.max() if not failed_group.empty else 0
-        average_cons_wins = round(passed_group.mean(), 2) if not passed_group.empty else 0
-        average_cons_losses = round(failed_group.mean(), 2) if not failed_group.empty else 0
-        efficiency_ratio = round(winrate / average_duration, 2)
+        p1_number_passed_challenges = (outcome_series == "Passed").sum()
+        p1_number_failed_challenges = (outcome_series == "Failed").sum()
+        p1_number_challenges = p1_number_failed_challenges + p1_number_passed_challenges
+        p1_challenge_winrate = round((p1_number_passed_challenges / p1_number_challenges) * 100, 2) if p1_number_challenges else 0
+        p1_average_challenge_duration = round(self.df["Duration"].mean(), 2) if p1_number_challenges else 0
+        p1_average_challenge_passed_duration = round(self.df[outcome_series == "Passed"]["Duration"].mean(), 2)
+        p1_average_challenge_failed_duration = round(self.df[outcome_series == "Failed"]["Duration"].mean(), 2)
+        p1_max_cons_challenge_passed = passed_group.max() if not passed_group.empty else 0
+        p1_max_cons_challenge_failed = failed_group.max() if not failed_group.empty else 0
+        p1_average_cons_challenge_passed = round(passed_group.mean(), 2) if not passed_group.empty else 0
+        p1_average_cons_challenge_failed = round(failed_group.mean(), 2) if not failed_group.empty else 0
+        p1_efficiency_ratio = round(p1_challenge_winrate / p1_average_challenge_duration, 2)
 
         metrics_dict = {
-            "Number Passed": number_passed,
-            "Number Failed": number_failed,
-            "Total Outcomes": total_outcomes,
-            "Winrate": winrate,
-            "Average Duration": average_duration,
-            "Average Duration Passed": average_duration_passed,
-            "Average Duration Failed": average_duration_failed,
-            "Max Consecutive Passed": max_cons_wins,
-            "Max Consecutive Losses": max_cons_losses,
-            "Average Consecutive Passed": average_cons_wins,
-            "Average Consecutive Failed": average_cons_losses,
-            "Efficiency Ratio": efficiency_ratio,
+            "p1_number_passed_challenges": p1_number_passed_challenges,
+            "p1_number_failed_challenges": p1_number_failed_challenges,
+            "p1_number_challenges": p1_number_challenges,
+            "p1_challenge_winrate": p1_challenge_winrate,
+            "p1_average_challenge_duration": p1_average_challenge_duration,
+            "p1_average_challenge_passed_duration": p1_average_challenge_passed_duration,
+            "p1_average_challenge_failed_duration": p1_average_challenge_failed_duration,
+            "p1_max_cons_challenge_passed": p1_max_cons_challenge_passed,
+            "p1_max_cons_challenge_failed": p1_max_cons_challenge_failed,
+            "p1_average_cons_challenge_passed": p1_average_cons_challenge_passed,
+            "p1_average_cons_challenge_failed": p1_average_cons_challenge_failed,
+            "p1_efficiency_ratio": p1_efficiency_ratio,
         }
 
         return metrics_dict
@@ -66,40 +66,40 @@ class MetricsCalculator:
         payout_rows["Payout Amount"] = payout_rows["Ending Balance"] - payout_rows["Start Balance"]
         cost_per_challenge = 80
 
-        number_payouts = (outcome_series == "Payout").sum()
-        number_failed = (outcome_series == "Failed").sum()
-        total_outcomes = number_failed + number_payouts
-        winrate = round((number_payouts / total_outcomes) * 100, 2) if total_outcomes else 0
-        average_duration = round(self.df["Duration"].mean(), 2) if total_outcomes else 0
-        average_payout_duration = round(self.df[outcome_series == "Payout"]["Duration"].mean(), 2) if number_payouts else 0
-        average_failed_duration = round(self.df[outcome_series == "Failed"]["Duration"].mean(), 2) if number_failed else 0
-        max_cons_payouts = passed_group.max() if not passed_group.empty else 0
-        max_cons_losses = failed_group.max() if not failed_group.empty else 0
-        average_cons_payouts = round(passed_group.mean(), 2) if not passed_group.empty else 0
-        average_cons_losses = round(failed_group.mean(), 2) if not failed_group.empty else 0
-        average_per_payout = round(payout_rows["Payout Amount"].mean(), 2) if not payout_rows.empty else 0
-        total_profit_payouts = round(payout_rows["Payout Amount"].sum(), 2) if not payout_rows.empty else 0
-        total_gross_loss = number_failed * cost_per_challenge
-        profit_factor = round(total_profit_payouts / total_gross_loss, 2) if total_gross_loss != 0 else float('inf')
-        profitability_ratio = round(((winrate / 100 * average_per_payout) / cost_per_challenge) * 10, 2)
+        p3_number_payouts = (outcome_series == "Payout").sum()
+        p3_number_failed_challenges = (outcome_series == "Failed").sum()
+        p3_number_challenges = p3_number_failed_challenges + p3_number_payouts
+        p3_payout_winrate = round((p3_number_payouts / p3_number_challenges) * 100, 2) if p3_number_challenges else 0
+        p3_average_challenge_duration = round(self.df["Duration"].mean(), 2) if p3_number_challenges else 0
+        p3_average_challenge_passed_duration = round(self.df[outcome_series == "Payout"]["Duration"].mean(), 2) if p3_number_payouts else 0
+        p3_average_challenge_failed_duration = round(self.df[outcome_series == "Failed"]["Duration"].mean(), 2) if p3_number_failed_challenges else 0
+        p3_max_cons_payouts = passed_group.max() if not passed_group.empty else 0
+        p3_max_cons_failed = failed_group.max() if not failed_group.empty else 0
+        p3_average_max_cons_payouts = round(passed_group.mean(), 2) if not passed_group.empty else 0
+        p3_average_max_cons_failed = round(failed_group.mean(), 2) if not failed_group.empty else 0
+        p3_average_profit_payout = round(payout_rows["Payout Amount"].mean(), 2) if not payout_rows.empty else 0
+        p3_total_profit_payouts = round(payout_rows["Payout Amount"].sum(), 2) if not payout_rows.empty else 0
+        p3_total_loss_payouts = p3_number_failed_challenges * cost_per_challenge
+        p3_profit_factor = round(p3_total_profit_payouts / p3_total_loss_payouts, 2) if p3_total_loss_payouts != 0 else float('inf')
+        p3_profitability_ratio = round(((p3_payout_winrate / 100 * p3_average_profit_payout) / cost_per_challenge) * 10, 2)
 
         metrics_dict = {
-            "Number Payouts": number_payouts,
-            "Number Failed": number_failed,
-            "Total Outcomes": total_outcomes,
-            "Winrate": winrate,
-            "Average Duration": average_duration,
-            "Average Duration Payout": average_payout_duration,
-            "Average Duration Failed": average_failed_duration,
-            "Max Consecutive Payouts": max_cons_payouts,
-            "Max Consecutive Losses": max_cons_losses,
-            "Average Consecutive Payouts": average_cons_payouts,
-            "Average Consecutive Failed": average_cons_losses,
-            "Average Profit Per Payout": average_per_payout,
-            "Total Profit Payouts": total_profit_payouts,
-            "Total Gross Loss": total_gross_loss,
-            "Profit Factor": profit_factor,
-            "Profitability Ratio": profitability_ratio,
+            "p3_number_payouts": p3_number_payouts,
+            "p3_number_failed_challenges": p3_number_failed_challenges,
+            "p3_number_challenges": p3_number_challenges,
+            "p3_payout_winrate": p3_payout_winrate,
+            "p3_average_challenge_duration": p3_average_challenge_duration,
+            "p3_average_challenge_passed_duration": p3_average_challenge_passed_duration,
+            "p3_average_challenge_failed_duration": p3_average_challenge_failed_duration,
+            "p3_max_cons_payouts": p3_max_cons_payouts,
+            "p3_max_cons_failed": p3_max_cons_failed,
+            "p3_average_max_cons_payouts": p3_average_max_cons_payouts,
+            "p3_average_max_cons_failed": p3_average_max_cons_failed,
+            "p3_average_profit_payout": p3_average_profit_payout,
+            "p3_total_profit_payouts": p3_total_profit_payouts,
+            "p3_total_loss_payouts": p3_total_loss_payouts,
+            "p3_profit_factor": p3_profit_factor,
+            "p3_profitability_ratio": p3_profitability_ratio,
         }
 
         return metrics_dict
@@ -156,36 +156,36 @@ class MetricsCalculator:
         loss_streaks = streaks[streaks["first"] == "Failed"]["size"]
 
         # metrics
-        total_challenges = len(challenge_df)
-        total_passed_challenges = (challenge_df["Outcome"] == "Passed").sum()
-        total_failed_challenges = (challenge_df["Outcome"] == "Failed").sum()
-        winrate = round((total_passed_challenges / total_challenges) * 100, 2) if total_challenges else 0
-        average_duration_challenge = round(challenge_df["Duration"].mean(), 2) if total_challenges else 0
-        average_duration_passed = round(challenge_df[challenge_df["Outcome"] == "Passed"]["Duration"].mean(), 2) if total_passed_challenges else 0
-        average_duration_failed = round(challenge_df[challenge_df["Outcome"] == "Failed"]["Duration"].mean(), 2) if total_failed_challenges else 0
-        max_cons_wins = int(win_streaks.max()) if not win_streaks.empty else 0
-        max_cons_losses = int(loss_streaks.max()) if not loss_streaks.empty else 0
-        average_cons_wins = round(win_streaks.mean(), 2) if not win_streaks.empty else 0
-        average_cons_losses = round(loss_streaks.mean(), 2) if not loss_streaks.empty else 0
-        failed_p1_percentage = round((failed_p1_count / total_failed_challenges) * 100, 2) if total_failed_challenges else 0
-        failed_p2_percentage = round((failed_p2_count / total_failed_challenges) * 100, 2) if total_failed_challenges else 0
-        efficiency_ratio = round(winrate / average_duration_challenge, 2)
+        c_number_challenges = len(challenge_df)
+        c_number_passed_challenges = (challenge_df["Outcome"] == "Passed").sum()
+        c_number_failed_challenges = (challenge_df["Outcome"] == "Failed").sum()
+        c_challenge_winrate = round((c_number_passed_challenges / c_number_challenges) * 100, 2) if c_number_challenges else 0
+        c_average_challenge_duration = round(challenge_df["Duration"].mean(), 2) if c_number_challenges else 0
+        c_average_challenge_passed_duration = round(challenge_df[challenge_df["Outcome"] == "Passed"]["Duration"].mean(), 2) if c_number_passed_challenges else 0
+        c_average_challenge_failed_duration = round(challenge_df[challenge_df["Outcome"] == "Failed"]["Duration"].mean(), 2) if c_number_failed_challenges else 0
+        c_max_cons_challenge_passed = int(win_streaks.max()) if not win_streaks.empty else 0
+        c_max_cons_challenge_failed = int(loss_streaks.max()) if not loss_streaks.empty else 0
+        c_average_cons_challenge_passed = round(win_streaks.mean(), 2) if not win_streaks.empty else 0
+        c_average_cons_challenge_failed = round(loss_streaks.mean(), 2) if not loss_streaks.empty else 0
+        c_failed_p1_percentage = round((failed_p1_count / c_number_failed_challenges) * 100, 2) if c_number_failed_challenges else 0
+        c_failed_p2_percentage = round((failed_p2_count / c_number_failed_challenges) * 100, 2) if c_number_failed_challenges else 0
+        c_efficiency_ratio = round(c_challenge_winrate / c_average_challenge_duration, 2)
 
         metrics_dict = {
-            "Total Number Challenges": total_challenges,
-            "Total Passed Challenges": total_passed_challenges,
-            "Total Failed Challenges": total_failed_challenges,
-            "Winrate": winrate,
-            "Average Duration Challenge": average_duration_challenge,
-            "Average Duration Passed": average_duration_passed,
-            "Average Duration Failed": average_duration_failed,
-            "Max Consecutive Passed": max_cons_wins,
-            "Max Consecutive Losses": max_cons_losses,
-            "Average Consecutive Passed": average_cons_wins,
-            "Average Consecutive Losses": average_cons_losses,
-            "Failed Phase 1 Percentage": failed_p1_percentage,
-            "Failed Phase 2 Percentage": failed_p2_percentage,
-            "Efficiency Ratio": efficiency_ratio
+            "c_number_challenges": c_number_challenges,
+            "c_number_passed_challenges": c_number_passed_challenges,
+            "c_number_failed_challenges": c_number_failed_challenges,
+            "c_challenge_winrate": c_challenge_winrate,
+            "c_average_challenge_duration": c_average_challenge_duration,
+            "c_average_challenge_passed_duration": c_average_challenge_passed_duration,
+            "c_average_challenge_failed_duration": c_average_challenge_failed_duration,
+            "c_max_cons_challenge_passed": c_max_cons_challenge_passed,
+            "c_max_cons_challenge_failed": c_max_cons_challenge_failed,
+            "c_average_cons_challenge_passed": c_average_cons_challenge_passed,
+            "c_average_cons_challenge_failed": c_average_cons_challenge_failed,
+            "c_failed_p1_percentage": c_failed_p1_percentage,
+            "c_failed_p2_percentage": c_failed_p2_percentage,
+            "c_efficiency_ratio": c_efficiency_ratio
         }
 
         return metrics_dict
@@ -199,8 +199,8 @@ class MetricsCalculator:
         df["Ending Balance"] = pd.to_numeric(df["Ending Balance"], errors = "coerce").fillna(0)
 
         challenge_groups = df.groupby(["Challenge Number"])
-        total_challenges = challenge_groups.ngroups
-        total_passed_challenges = total_payouts = total_failed_challenges = 0
+        f_number_challenges = challenge_groups.ngroups
+        f_number_passed_challenges = total_payouts = f_number_failed_challenges = 0
         challenge_durations = []
         passed_durations = []
         failed_durations = []
@@ -215,21 +215,21 @@ class MetricsCalculator:
             challenge_durations.append(total_duration)
 
             if not payouts.empty:
-                total_passed_challenges += 1
+                f_number_passed_challenges += 1
                 total_payouts += len(payouts)
                 passed_durations.append(total_duration)
                 challenge_outcomes.append("Payout")
                 payout_profits.extend((payouts["Ending Balance"] - payouts["Start Balance"]).tolist())
             else:
-                total_failed_challenges += 1
+                f_number_failed_challenges += 1
                 failed_durations.append(total_duration)
                 challenge_outcomes.append("Failed")
 
-        challenge_winrate = round((total_passed_challenges / total_challenges) * 100, 2) if total_challenges else 0
-        payout_winrate = round((total_payouts / (total_payouts + total_failed_challenges)) * 100, 2) if (total_payouts + total_failed_challenges) else 0
-        average_duration_total = round(sum(challenge_durations) / len(challenge_durations), 2) if challenge_durations else 0
-        average_duration_passed = round(sum(passed_durations) / len(passed_durations), 2) if passed_durations else 0
-        average_duration_failed = round(sum(failed_durations) / len(failed_durations), 2) if failed_durations else 0
+        f_challenge_winrate = round((f_number_passed_challenges / f_number_challenges) * 100, 2) if f_number_challenges else 0
+        f_payout_winrate = round((total_payouts / (total_payouts + f_number_failed_challenges)) * 100, 2) if (total_payouts + f_number_failed_challenges) else 0
+        f_average_challenge_duration = round(sum(challenge_durations) / len(challenge_durations), 2) if challenge_durations else 0
+        f_average_challenge_passed_duration = round(sum(passed_durations) / len(passed_durations), 2) if passed_durations else 0
+        f_average_challenge_failed_duration = round(sum(failed_durations) / len(failed_durations), 2) if failed_durations else 0
 
         if challenge_outcomes:
             series = pd.Series(challenge_outcomes)
@@ -237,28 +237,28 @@ class MetricsCalculator:
             streaks = series.groupby(groups).agg(['first', 'size'])
             win_streaks = streaks[streaks['first'] == 'Payout']["size"]
             loss_streaks = streaks[streaks['first'] == 'Failed']["size"]
-            max_cons_wins = int(win_streaks.max()) if not win_streaks.empty else 0
-            max_cons_losses = int(loss_streaks.max()) if not loss_streaks.empty else 0
-            average_cons_wins = round(win_streaks.mean(), 2) if not win_streaks.empty else 0
-            average_cons_losses = round(loss_streaks.mean(), 2) if not loss_streaks.empty else 0
+            f_max_cons_challenge_passed = int(win_streaks.max()) if not win_streaks.empty else 0
+            f_max_cons_challenge_failed = int(loss_streaks.max()) if not loss_streaks.empty else 0
+            f_average_cons_challenge_passed = round(win_streaks.mean(), 2) if not win_streaks.empty else 0
+            f_average_cons_challenge_failed = round(loss_streaks.mean(), 2) if not loss_streaks.empty else 0
         else:
-            max_cons_wins = max_cons_losses = average_cons_losses = average_cons_wins = 0
+            f_max_cons_challenge_passed = f_max_cons_challenge_failed = f_average_cons_challenge_failed = f_average_cons_challenge_passed = 0
 
         df_sorted = df.sort_values(["Challenge Number", "Phase"])
         all_payout_series = (df_sorted["Outcome"] == "Payout").astype(int)
         streak_groups = (all_payout_series != all_payout_series.shift()).cumsum()
         streaks = all_payout_series.groupby(streak_groups).sum()
         all_challenge_payout_streaks = streaks[streaks > 0].tolist()
-        max_cons_payouts_per_challenge = max(all_challenge_payout_streaks) if all_challenge_payout_streaks else 0
-        average_cons_payouts_per_challenge = round(sum(all_challenge_payout_streaks) / len(all_challenge_payout_streaks), 2) if all_challenge_payout_streaks else 0
+        f_max_cons_payouts = max(all_challenge_payout_streaks) if all_challenge_payout_streaks else 0
+        f_average_payouts_challenge = round(sum(all_challenge_payout_streaks) / len(all_challenge_payout_streaks), 2) if all_challenge_payout_streaks else 0
 
-        average_profit_per_payout = round(sum(payout_profits) / len(payout_profits), 2) if payout_profits else 0
+        f_average_profit_payout = round(sum(payout_profits) / len(payout_profits), 2) if payout_profits else 0
         total_challenge_profits = []
         for _, group in df.groupby("Challenge Number"):
             payouts = group[group["Outcome"] == "Payout"]
             total_profit = (payouts["Ending Balance"] - payouts["Start Balance"]).sum() if not payouts.empty else -80
             total_challenge_profits.append(total_profit)
-        average_total_profit_per_challenge = round(sum(total_challenge_profits) / len(total_challenge_profits), 2) if total_challenge_profits else 0
+        f_average_profit_challenge = round(sum(total_challenge_profits) / len(total_challenge_profits), 2) if total_challenge_profits else 0
 
         df["End Phase Date"] = pd.to_datetime(df["End Phase Date"], errors = "coerce")
         df["PnL"] = np.where(
@@ -268,44 +268,46 @@ class MetricsCalculator:
         )
 
         df["Month"] = df["End Phase Date"].dt.to_period("M").astype(str)
-        monthly_pnl = df.groupby("Month")["PnL"].sum()
-        winning_months = int((monthly_pnl > 0).sum())
-        losing_months = int((monthly_pnl < 0).sum())
-        monthly_winrate = round((winning_months / (winning_months + losing_months)) * 100, 2) if (winning_months + losing_months) else 0
-        average_monthly_profit = round(monthly_pnl[monthly_pnl > 0].mean(), 2) if (monthly_pnl > 0).any() else 0
-        average_monthly_loss = round(monthly_pnl[monthly_pnl < 0].mean(), 2) if (monthly_pnl < 0).any() else 0
-        monthly_wl_ratio = round(winning_months / losing_months, 2) if losing_months > 0 else float('inf')
-        profitability_ratio_payout = round(((payout_winrate / 100) * average_cons_payouts_per_challenge * average_profit_per_payout) / 80, 2)
-        profitability_ratio_monthly = round(((monthly_winrate / 100) * average_monthly_profit) / (average_monthly_loss * -1), 2)
-        challenge_efficiency_ratio = round(average_total_profit_per_challenge / total_failed_challenges, 2)
-        overall_risk_adjusted_return = round(challenge_efficiency_ratio * profitability_ratio_monthly, 2)
+        m_average_monthly_pnl = df.groupby("Month")["PnL"].sum()
+        m_winning_months = int((m_average_monthly_pnl > 0).sum())
+        m_losing_months = int((m_average_monthly_pnl < 0).sum())
+        m_monthly_winrate = round((m_winning_months / (m_winning_months + m_losing_months)) * 100, 2) if (m_winning_months + m_losing_months) else 0
+        m_average_monthly_profit = round(m_average_monthly_pnl[m_average_monthly_pnl > 0].mean(), 2) if (m_average_monthly_pnl > 0).any() else 0
+        m_average_monthly_loss = round(m_average_monthly_pnl[m_average_monthly_pnl < 0].mean(), 2) if (m_average_monthly_pnl < 0).any() else 0
+        m_monthly_wl_ratio = round(m_winning_months / m_losing_months, 2) if m_losing_months > 0 else float('inf')
+        f_profitability_ratio = round(((f_payout_winrate / 100) * f_average_payouts_challenge * f_average_profit_payout) / 80, 2)
+        m_monthly_stability_return_ratio = round(((m_monthly_winrate / 100) * m_average_monthly_profit) / (m_average_monthly_loss * -1), 2)
+        f_challenge_efficiency_ratio = round(f_average_profit_challenge / f_number_failed_challenges, 2)
+        m_overall_risk_adjusted_returns = round(f_challenge_efficiency_ratio * m_monthly_stability_return_ratio, 2)
 
         metrics_dict = {
-            "Number Passed Challenges": total_passed_challenges,
-            "Number Failed Challenges": total_failed_challenges,
-            "Challenge Winrate": challenge_winrate,
-            "Payout Winrate": payout_winrate,
-            "Average Duration Total": average_duration_total,
-            "Average Duration Passed": average_duration_passed,
-            "Average Duration Failed": average_duration_failed,
-            "Max Consecutive Passed Challenges": max_cons_wins,
-            "Max Consecutive Failed Challenges": max_cons_losses,
-            "Average Consecutive Passed Challenges": average_cons_wins,
-            "Average Consecutive Failed Challenges": average_cons_losses,
-            "Max Consecutive Payouts": max_cons_payouts_per_challenge,
-            "Average Payouts Per Challenge": average_cons_payouts_per_challenge,
-            "Average Profit Per Payout": average_profit_per_payout,
-            "Average Profit Per Challenge": average_total_profit_per_challenge,
-            "Winning Months": winning_months,
-            "Losing Months": losing_months,
-            "Monthly Winrate": monthly_winrate,
-            "Average Monthly Profit": average_monthly_profit,
-            "Average Monthly Loss": average_monthly_loss,
-            "Monthly W/L Ratio": monthly_wl_ratio,
-            "Challenge Efficiency": challenge_efficiency_ratio,
-            "Overall Risk Adjusted Returns": overall_risk_adjusted_return,
-            "Profitability Ratio Payout": profitability_ratio_payout,
-            "Profitability Ratio Monthly": profitability_ratio_monthly
+            "f_number_challenges": f_number_challenges,
+            "f_number_passed_challenges": f_number_passed_challenges,
+            "f_number_failed_challenges": f_number_failed_challenges,
+            "f_challenge_winrate": f_challenge_winrate,
+            "f_payout_winrate": f_payout_winrate,
+            "f_average_challenge_duration": f_average_challenge_duration,
+            "f_average_challenge_passed_duration": f_average_challenge_passed_duration,
+            "f_average_challenge_failed_duration": f_average_challenge_failed_duration,
+            "f_max_cons_challenge_passed": f_max_cons_challenge_passed,
+            "f_max_cons_challenge_failed": f_max_cons_challenge_failed,
+            "f_average_cons_challenge_passed": f_average_cons_challenge_passed,
+            "f_average_cons_challenge_failed": f_average_cons_challenge_failed,
+            "f_max_cons_payouts": f_max_cons_payouts,
+            "f_average_payouts_challenge": f_average_payouts_challenge,
+            "f_average_profit_payout": f_average_profit_payout,
+            "f_average_profit_challenge": f_average_profit_challenge,
+            "m_winning_months": m_winning_months,
+            "m_losing_months": m_losing_months,
+            "m_monthly_winrate": m_monthly_winrate,
+            "m_average_monthly_pnl": m_average_monthly_pnl,
+            "m_average_monthly_profit": m_average_monthly_profit,
+            "m_average_monthly_loss": m_average_monthly_loss,
+            "m_monthly_wl_ratio": m_monthly_wl_ratio,
+            "f_challenge_efficiency_ratio": f_challenge_efficiency_ratio,
+            "m_overall_risk_adjusted_returns": m_overall_risk_adjusted_returns,
+            "f_profitability_ratio": f_profitability_ratio,
+            "m_monthly_stability_return_ratio": m_monthly_stability_return_ratio
         }
 
         return metrics_dict
