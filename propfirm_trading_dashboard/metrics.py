@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 class MetricsCalculator:
     def __init__(self, df):
@@ -15,9 +16,7 @@ class MetricsCalculator:
 
         if phase_type not in dispatch_types:
             raise ValueError("Invalid phase_type")
-        
         return dispatch_types[phase_type]()
-
 
     #Private methods for calculating metrics depending on phase
     def _calculate_metrics_phase1_2(self):
@@ -134,23 +133,96 @@ class MetricsCalculator:
         failed_p2_percentage = round((failed_p2_count / total_failed_challenges) * 100, 2) if total_failed_challenges else 0
         efficiency_ratio = round(winrate / average_duration_challenge, 2)
 
-        print(f"Total Challenges: {total_challenges}")
-        print(f"Total Won Challenges: {total_passed_challenges}")
-        print(f"Total Failed Challenges: {total_failed_challenges}")
-        print(f"Winrate: {winrate}")
-        print(f"Average Duration Challenge: {average_duration_challenge}")
-        print(f"Average Duration Passed Challenges: {average_duration_passed}")
-        print(f"Average Duration Failed Challenges: {average_duration_failed}")
-        print(f"Max Consecutive Passed Challenges: {max_cons_wins}")
-        print(f"Max Consecutive Failed Challenges: {max_cons_losses}")
-        print(f"Average Consecutive Passed Challenges: {average_cons_wins}")
-        print(f"Average Consecutive Failed Challenges: {average_cons_losses}")
-        print(f"Failed P1 Percentage: {failed_p1_percentage}")
-        print(f"Failed P2 Percentage: {failed_p2_percentage}")
-        print(f"Efficiency Ratio: {efficiency_ratio}")
-
     def _calculate_metrics_funded(self):
-        print("Calculating Funded")
+        df = self.df.copy()
+        df["Outcome"] = df["Outcome"].astype(str).str.strip()
+        df["Phase"] = pd.to_numeric(df["Phase"], errors = "coerce").fillna(0).astype(int)
+        df["Duration"] = pd.to_numeric(df["Duration"], errors = "coerce").fillna(0)
+        df["Start Balance"] = pd.to_numeric(df["Start Balance"], errors = "coerce").fillna(0)
+        df["Ending Balance"] = pd.to_numeric(df["Ending Balance"], errors = "coerce").fillna(0)
+
+        challenge_groups = df.groupby(["Challenge Number"])
+        total_challenges = challenge_groups.ngroups
+        total_passed_challenges = total_payouts = total_failed_challenges = 0
+        challenge_durations = []
+        passed_durations = []
+        failed_durations = []
+        challenge_outcomes = []
+        payout_profits = []
+
+        # process each challenge
+        for _, group in challenge_groups:
+            group = group.sort_values("Phase")
+            payouts = group[group["Outcome"] == "Payout"]
+            total_duration = group["Duration"].sum()
+            challenge_durations.append(total_duration)
+
+            if not payouts.empty:
+                total_passed_challenges += 1
+                total_payouts += len(payouts)
+                passed_durations.append(total_duration)
+                challenge_outcomes.append("Payout")
+                payout_profits.extend((payouts["Ending Balance"] - payouts["Start Balance"]).tolist())
+            else:
+                total_failed_challenges += 1
+                failed_durations.append(total_duration)
+                challenge_outcomes.append("Failed")
+
+        challenge_winrate = round((total_passed_challenges / total_challenges) * 100, 2) if total_challenges else 0
+        payout_winrate = round((total_payouts / (total_payouts + total_failed_challenges)) * 100, 2) if (total_payouts + total_failed_challenges) else 0
+        average_duration_total = round(sum(challenge_durations) / len(challenge_durations), 2) if challenge_durations else 0
+        average_duration_passed = round(sum(passed_durations) / len(passed_durations), 2) if passed_durations else 0
+        average_duration_failed = round(sum(failed_durations) / len(failed_durations), 2) if failed_durations else 0
+
+        if challenge_outcomes:
+            series = pd.Series(challenge_outcomes)
+            groups = (series != series.shift()).cumsum()
+            streaks = series.groupby(groups).agg(['first', 'size'])
+            win_streaks = streaks[streaks['first'] == 'Payout']["size"]
+            loss_streaks = streaks[streaks['first'] == 'Failed']["size"]
+            max_cons_wins = int(win_streaks.max()) if not win_streaks.empty else 0
+            max_cons_losses = int(loss_streaks.max()) if not loss_streaks.empty else 0
+            average_cons_wins = round(win_streaks.mean(), 2) if not win_streaks.empty else 0
+            average_cons_losses = round(loss_streaks.mean(), 2) if not loss_streaks.empty else 0
+        else:
+            max_cons_wins = max_cons_losses = average_cons_losses = average_cons_wins = 0
+
+        df_sorted = df.sort_values(["Challenge Number", "Phase"])
+        all_payout_series = (df_sorted["Outcome"] == "Payout").astype(int)
+        streak_groups = (all_payout_series != all_payout_series.shift()).cumsum()
+        streaks = all_payout_series.groupby(streak_groups).sum()
+        all_challenge_payout_streaks = streaks[streaks > 0].tolist()
+        max_cons_payouts_per_challenge = max(all_challenge_payout_streaks) if all_challenge_payout_streaks else 0
+        average_cons_payouts_per_challenge = round(sum(all_challenge_payout_streaks) / len(all_challenge_payout_streaks), 2) if all_challenge_payout_streaks else 0
+
+        average_profit_per_payout = round(sum(payout_profits) / len(payout_profits), 2) if payout_profits else 0
+        total_challenge_profits = []
+        for _, group in df.groupby("Challenge Number"):
+            payouts = group[group["Outcome"] == "Payout"]
+            total_profit = (payouts["Ending Balance"] - payouts["Start Balance"]).sum() if not payouts.empty else -80
+            total_challenge_profits.append(total_profit)
+        average_total_profit_per_challenge = round(sum(total_challenge_profits) / len(total_challenge_profits), 2) if total_challenge_profits else 0
+
+        df["End Phase Date"] = pd.to_datetime(df["End Phase Date"], errors = "coerce")
+        df["PnL"] = np.where(
+            df["Outcome"] == "Payout",
+            df["Ending Balance"] - df["Start Balance"],
+            np.where(df["Outcome"] == "Failed", -80, 0)
+        )
+
+        df["Month"] = df["End Phase Date"].dt.to_period("M").astype(str)
+        monthly_pnl = df.groupby("Month")["PnL"].sum()
+        winning_months = int((monthly_pnl > 0).sum())
+        losing_months = int((monthly_pnl < 0).sum())
+        monthly_winrate = round((winning_months / (winning_months + losing_months)) * 100, 2) if (winning_months + losing_months) else 0
+        average_monthly_profit = round(monthly_pnl[monthly_pnl > 0].mean(), 2) if (monthly_pnl > 0).any() else 0
+        average_monthly_loss = round(monthly_pnl[monthly_pnl < 0].mean(), 2) if (monthly_pnl < 0).any() else 0
+        monthly_wl_ratio = round(winning_months / losing_months, 2) if losing_months > 0 else float('inf')
+        profitability_ratio_payout = round(((payout_winrate / 100) * average_cons_payouts_per_challenge * average_profit_per_payout) / 80, 2)
+        profitability_ratio_monthly = round(((monthly_winrate / 100) * average_monthly_profit) / (average_monthly_loss * -1), 2)
+        challenge_efficiency_ratio = round(average_total_profit_per_challenge / total_failed_challenges, 2)
+        overall_risk_adjusted_return = round(challenge_efficiency_ratio * profitability_ratio_monthly, 2)
+
 
     def _calculate_consecutive_metrics(self, series, outcome):
         mask = series == outcome
