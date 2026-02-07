@@ -19,6 +19,7 @@ class MetricsCalculator:
     #Private methods for calculating metrics depending on phase
     def _calculate_metrics_phase1_2(self, phasename: str):
         df = self.dfs[phasename]
+        prefix = "p1" if phasename == "phase1" else "p2" if phasename == "phase2" else None
         df["Duration"] = df["Duration"].astype(float)
         outcome_series = df["Outcome"]
         passed_group = self._calculate_consecutive_metrics(outcome_series, "Passed")
@@ -38,18 +39,18 @@ class MetricsCalculator:
         p1_efficiency_ratio = round(p1_challenge_winrate / p1_average_challenge_duration, 2)
 
         metrics_dict = {
-            "p1_number_passed_challenges": p1_number_passed_challenges,
-            "p1_number_failed_challenges": p1_number_failed_challenges,
-            "p1_number_challenges": p1_number_challenges,
-            "p1_challenge_winrate": p1_challenge_winrate,
-            "p1_average_challenge_duration": p1_average_challenge_duration,
-            "p1_average_challenge_passed_duration": p1_average_challenge_passed_duration,
-            "p1_average_challenge_failed_duration": p1_average_challenge_failed_duration,
-            "p1_max_cons_challenge_passed": p1_max_cons_challenge_passed,
-            "p1_max_cons_challenge_failed": p1_max_cons_challenge_failed,
-            "p1_average_cons_challenge_passed": p1_average_cons_challenge_passed,
-            "p1_average_cons_challenge_failed": p1_average_cons_challenge_failed,
-            "p1_efficiency_ratio": p1_efficiency_ratio,
+            prefix + "_number_passed_challenges": p1_number_passed_challenges,
+            prefix + "_number_failed_challenges": p1_number_failed_challenges,
+            prefix + "_number_challenges": p1_number_challenges,
+            prefix + "_challenge_winrate": p1_challenge_winrate,
+            prefix + "_average_challenge_duration": p1_average_challenge_duration,
+            prefix + "_average_challenge_passed_duration": p1_average_challenge_passed_duration,
+            prefix + "_average_challenge_failed_duration": p1_average_challenge_failed_duration,
+            prefix + "_max_cons_challenge_passed": p1_max_cons_challenge_passed,
+            prefix + "_max_cons_challenge_failed": p1_max_cons_challenge_failed,
+            prefix + "_average_cons_challenge_passed": p1_average_cons_challenge_passed,
+            prefix + "_average_cons_challenge_failed": p1_average_cons_challenge_failed,
+            prefix + "_efficiency_ratio": p1_efficiency_ratio,
         }
 
         return metrics_dict
@@ -300,7 +301,6 @@ class MetricsCalculator:
             "m_winning_months": m_winning_months,
             "m_losing_months": m_losing_months,
             "m_monthly_winrate": m_monthly_winrate,
-            "m_average_monthly_pnl": m_average_monthly_pnl,
             "m_average_monthly_profit": m_average_monthly_profit,
             "m_average_monthly_loss": m_average_monthly_loss,
             "m_monthly_wl_ratio": m_monthly_wl_ratio,
