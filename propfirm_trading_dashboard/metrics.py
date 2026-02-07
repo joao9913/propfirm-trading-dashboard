@@ -7,8 +7,8 @@ class MetricsCalculator:
     
     def calculate_metrics(self):
         dispatch_types = {
-            "phase1": self._calculate_metrics_phase1_2,
-            "phase2": self._calculate_metrics_phase1_2,
+            "phase1": self._calculate_metrics_phase1_2("phase1"),
+            "phase2": self._calculate_metrics_phase1_2("phase2"),
             "phase3": self._calculate_metrics_phase3,
             "challenge": self._calculate_metrics_challenge,
             "funded": self._calculate_metrics_funded,
@@ -17,9 +17,10 @@ class MetricsCalculator:
         
 
     #Private methods for calculating metrics depending on phase
-    def _calculate_metrics_phase1_2(self):
-        self.df["Duration"] = self.df["Duration"].astype(float)
-        outcome_series = self.df["Outcome"]
+    def _calculate_metrics_phase1_2(self, phasename: str):
+        df = self.dfs[phasename]
+        df["Duration"] = df["Duration"].astype(float)
+        outcome_series = df["Outcome"]
         passed_group = self._calculate_consecutive_metrics(outcome_series, "Passed")
         failed_group = self._calculate_consecutive_metrics(outcome_series, "Failed")
 
@@ -27,9 +28,9 @@ class MetricsCalculator:
         p1_number_failed_challenges = (outcome_series == "Failed").sum()
         p1_number_challenges = p1_number_failed_challenges + p1_number_passed_challenges
         p1_challenge_winrate = round((p1_number_passed_challenges / p1_number_challenges) * 100, 2) if p1_number_challenges else 0
-        p1_average_challenge_duration = round(self.df["Duration"].mean(), 2) if p1_number_challenges else 0
-        p1_average_challenge_passed_duration = round(self.df[outcome_series == "Passed"]["Duration"].mean(), 2)
-        p1_average_challenge_failed_duration = round(self.df[outcome_series == "Failed"]["Duration"].mean(), 2)
+        p1_average_challenge_duration = round(df["Duration"].mean(), 2) if p1_number_challenges else 0
+        p1_average_challenge_passed_duration = round(df[outcome_series == "Passed"]["Duration"].mean(), 2)
+        p1_average_challenge_failed_duration = round(df[outcome_series == "Failed"]["Duration"].mean(), 2)
         p1_max_cons_challenge_passed = passed_group.max() if not passed_group.empty else 0
         p1_max_cons_challenge_failed = failed_group.max() if not failed_group.empty else 0
         p1_average_cons_challenge_passed = round(passed_group.mean(), 2) if not passed_group.empty else 0
@@ -54,13 +55,14 @@ class MetricsCalculator:
         return metrics_dict
         
     def _calculate_metrics_phase3(self):
-        self.df["Duration"] = self.df["Duration"].astype(float)
-        self.df["Start Balance"] = self.df["Start Balance"].astype(float)
-        self.df["Ending Balance"] = self.df["Ending Balance"].astype(float)
-        outcome_series = self.df["Outcome"] 
+        df = self.dfs["phase3"]
+        df["Duration"] = df["Duration"].astype(float)
+        df["Start Balance"] = df["Start Balance"].astype(float)
+        df["Ending Balance"] = df["Ending Balance"].astype(float)
+        outcome_series = df["Outcome"] 
         passed_group = self._calculate_consecutive_metrics(outcome_series, "Payout")
         failed_group = self._calculate_consecutive_metrics(outcome_series, "Failed")
-        payout_rows = self.df[self.df["Outcome"] == "Payout"].copy()
+        payout_rows = df[df["Outcome"] == "Payout"].copy()
         payout_rows["Payout Amount"] = payout_rows["Ending Balance"] - payout_rows["Start Balance"]
         cost_per_challenge = 80
 
@@ -68,9 +70,9 @@ class MetricsCalculator:
         p3_number_failed_challenges = (outcome_series == "Failed").sum()
         p3_number_challenges = p3_number_failed_challenges + p3_number_payouts
         p3_payout_winrate = round((p3_number_payouts / p3_number_challenges) * 100, 2) if p3_number_challenges else 0
-        p3_average_challenge_duration = round(self.df["Duration"].mean(), 2) if p3_number_challenges else 0
-        p3_average_challenge_passed_duration = round(self.df[outcome_series == "Payout"]["Duration"].mean(), 2) if p3_number_payouts else 0
-        p3_average_challenge_failed_duration = round(self.df[outcome_series == "Failed"]["Duration"].mean(), 2) if p3_number_failed_challenges else 0
+        p3_average_challenge_duration = round(df["Duration"].mean(), 2) if p3_number_challenges else 0
+        p3_average_challenge_passed_duration = round(df[outcome_series == "Payout"]["Duration"].mean(), 2) if p3_number_payouts else 0
+        p3_average_challenge_failed_duration = round(df[outcome_series == "Failed"]["Duration"].mean(), 2) if p3_number_failed_challenges else 0
         p3_max_cons_payouts = passed_group.max() if not passed_group.empty else 0
         p3_max_cons_failed = failed_group.max() if not failed_group.empty else 0
         p3_average_max_cons_payouts = round(passed_group.mean(), 2) if not passed_group.empty else 0
@@ -103,7 +105,7 @@ class MetricsCalculator:
         return metrics_dict
     
     def _calculate_metrics_challenge(self):
-        df = self.df.copy().reset_index(drop = False).rename(columns={"index": "_row_index"})
+        df = self.dfs["challenge"].reset_index(drop = False).rename(columns={"index": "_row_index"})
         df["Outcome"] = df["Outcome"].astype(str).str.strip()
         df["Phase"] = pd.to_numeric(df["Phase"], errors = "coerce").fillna(0).astype(int)
         df["Duration"] = pd.to_numeric(df["Duration"], errors = "coerce").fillna(0)
@@ -189,7 +191,7 @@ class MetricsCalculator:
         return metrics_dict
 
     def _calculate_metrics_funded(self):
-        df = self.df.copy()
+        df = self.dfs["funded"]
         df["Outcome"] = df["Outcome"].astype(str).str.strip()
         df["Phase"] = pd.to_numeric(df["Phase"], errors = "coerce").fillna(0).astype(int)
         df["Duration"] = pd.to_numeric(df["Duration"], errors = "coerce").fillna(0)
