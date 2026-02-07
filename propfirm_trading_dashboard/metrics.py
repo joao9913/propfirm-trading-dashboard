@@ -5,18 +5,20 @@ class MetricsCalculator:
     def __init__(self, df):
         self.df = df
     
-    def calculate_metrics(self, phase_type: str):
+    def calculate_metrics(self):
         dispatch_types = {
-        "phase1": self._calculate_metrics_phase1_2,
-        "phase2": self._calculate_metrics_phase1_2,
-        "phase3": self._calculate_metrics_phase3,
-        "challenge": self._calculate_metrics_challenge,
-        "funded": self._calculate_metrics_funded,
+            "phase1": self._calculate_metrics_phase1_2,
+            "phase2": self._calculate_metrics_phase1_2,
+            "phase3": self._calculate_metrics_phase3,
+            "challenge": self._calculate_metrics_challenge,
+            "funded": self._calculate_metrics_funded,
         }
+        all_metrics = {}
+        phase_list = ["phase1", "phase2", "phase3", "challenge", "funded"]
 
-        if phase_type not in dispatch_types:
-            raise ValueError("Invalid phase_type")
-        return dispatch_types[phase_type]()
+        for phase_type in phase_list:
+            method = dispatch_types[phase_type]
+            all_metrics[phase_type] = method()
 
     #Private methods for calculating metrics depending on phase
     def _calculate_metrics_phase1_2(self):
