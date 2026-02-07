@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 
 class MetricsCalculator:
-    def __init__(self, df):
-        self.df = df
+    def __init__(self, dfs):
+        self.dfs = dfs
     
     def calculate_metrics(self):
         dispatch_types = {
@@ -13,12 +13,8 @@ class MetricsCalculator:
             "challenge": self._calculate_metrics_challenge,
             "funded": self._calculate_metrics_funded,
         }
-        all_metrics = {}
-        phase_list = ["phase1", "phase2", "phase3", "challenge", "funded"]
 
-        for phase_type in phase_list:
-            method = dispatch_types[phase_type]
-            all_metrics[phase_type] = method()
+        
 
     #Private methods for calculating metrics depending on phase
     def _calculate_metrics_phase1_2(self):

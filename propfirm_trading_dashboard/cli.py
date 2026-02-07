@@ -2,16 +2,17 @@ from csv_parser import load_csv_file, validate_columns
 from metrics import MetricsCalculator as mc
 from report import read_html_template
 
-phase_type = "funded"
-filename = phase_type + ".csv"
-path = "data/" + filename
+path = "data/"
+phase_list = ["phase1", "phase2", "phase3", "challenge", "funded"]
+df_dict = {}
 
-#Load and validate columns of csv file
-df = load_csv_file(path)
-validate_columns(df, filename)
+for phase in phase_list:
+    full_path = path + phase + ".csv"
 
-#Calculate metrics of csv file
-calculator = mc(df)
+    df = load_csv_file(full_path)
+    validate_columns(df)
+    df_dict[phase] = df
 
-# Generate html report 
-# read_html_template("templates/report_html.html")
+calculator = mc(df_dict)
+#all_metrics = calculator.calculate_metrics()
+print(df_dict)
