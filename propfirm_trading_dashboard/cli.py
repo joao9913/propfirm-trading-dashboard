@@ -15,3 +15,5 @@ for phase in phase_list:
 
 calculator = mc(df_dict)
 all_metrics = calculator.calculate_metrics()
+
+print(all_metrics)

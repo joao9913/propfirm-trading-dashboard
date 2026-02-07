@@ -9,12 +9,12 @@ class MetricsCalculator:
         dispatch_types = {
             "phase1": self._calculate_metrics_phase1_2("phase1"),
             "phase2": self._calculate_metrics_phase1_2("phase2"),
-            "phase3": self._calculate_metrics_phase3,
-            "challenge": self._calculate_metrics_challenge,
-            "funded": self._calculate_metrics_funded,
+            "phase3": self._calculate_metrics_phase3(),
+            "challenge": self._calculate_metrics_challenge(),
+            "funded": self._calculate_metrics_funded(),
         }
 
-        
+        return dispatch_types
 
     #Private methods for calculating metrics depending on phase
     def _calculate_metrics_phase1_2(self, phasename: str):
