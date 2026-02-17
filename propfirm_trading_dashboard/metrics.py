@@ -7,11 +7,11 @@ class MetricsCalculator:
     
     def calculate_metrics(self):
         dispatch_types = {
-            "phase1": self._calculate_metrics_phase1_2("phase1"),
-            "phase2": self._calculate_metrics_phase1_2("phase2"),
-            "phase3": self._calculate_metrics_phase3(),
-            "challenge": self._calculate_metrics_challenge(),
-            "funded": self._calculate_metrics_funded(),
+            "PHASE1": self._calculate_metrics_phase1_2("PHASE1"),
+            "PHASE2": self._calculate_metrics_phase1_2("PHASE2"),
+            "PHASE3": self._calculate_metrics_phase3(),
+            "CHALLENGE": self._calculate_metrics_challenge(),
+            "FUNDED": self._calculate_metrics_funded(),
         }
 
         return dispatch_types
@@ -19,7 +19,7 @@ class MetricsCalculator:
     #Private methods for calculating metrics depending on phase
     def _calculate_metrics_phase1_2(self, phasename: str):
         df = self.dfs[phasename]
-        prefix = "p1" if phasename == "phase1" else "p2" if phasename == "phase2" else None
+        prefix = "p1" if phasename == "PHASE1" else "p2" if phasename == "PHASE2" else None
         df["Duration"] = df["Duration"].astype(float)
         outcome_series = df["Outcome"]
         passed_group = self._calculate_consecutive_metrics(outcome_series, "Passed")
@@ -56,7 +56,7 @@ class MetricsCalculator:
         return metrics_dict
         
     def _calculate_metrics_phase3(self):
-        df = self.dfs["phase3"]
+        df = self.dfs["PHASE3"]
         df["Duration"] = df["Duration"].astype(float)
         df["Start Balance"] = df["Start Balance"].astype(float)
         df["Ending Balance"] = df["Ending Balance"].astype(float)
@@ -106,7 +106,7 @@ class MetricsCalculator:
         return metrics_dict
     
     def _calculate_metrics_challenge(self):
-        df = self.dfs["challenge"].reset_index(drop = False).rename(columns={"index": "_row_index"})
+        df = self.dfs["CHALLENGE"].reset_index(drop = False).rename(columns={"index": "_row_index"})
         df["Outcome"] = df["Outcome"].astype(str).str.strip()
         df["Phase"] = pd.to_numeric(df["Phase"], errors = "coerce").fillna(0).astype(int)
         df["Duration"] = pd.to_numeric(df["Duration"], errors = "coerce").fillna(0)
@@ -192,7 +192,7 @@ class MetricsCalculator:
         return metrics_dict
 
     def _calculate_metrics_funded(self):
-        df = self.dfs["funded"]
+        df = self.dfs["FUNDED"]
         df["Outcome"] = df["Outcome"].astype(str).str.strip()
         df["Phase"] = pd.to_numeric(df["Phase"], errors = "coerce").fillna(0).astype(int)
         df["Duration"] = pd.to_numeric(df["Duration"], errors = "coerce").fillna(0)

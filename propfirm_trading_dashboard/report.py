@@ -6,12 +6,13 @@ def load_template(template_name: str) -> Environment:
     template = env.get_template(template_name)
     return template
 
-def render_report(metrics: dict, template_name: str, output_path: str):
+def render_report(metrics: dict, template_name: str, filename: str):
     flat_metrics = {}
     for phase, metrics in metrics.items():
         flat_metrics.update(metrics)
 
     template = load_template(template_name)
+    output_path  = "reports/" + filename + ".html"
     html_content = template.render(**flat_metrics)
     Path(output_path).write_text(html_content, encoding = "utf-8")
     print(f"Report saved to {output_path}")
