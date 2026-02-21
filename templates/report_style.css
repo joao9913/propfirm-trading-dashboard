@@ -328,3 +328,42 @@ h2{
     border: 2px solid var(--border-color-gold-hover);
     transition: 0.2s;
 }
+
+.runs_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+.runs_table th, .runs_table td {
+    border-left: 2px solid var(--button-border-color);
+    border-right: 2px solid var(--button-border-color);
+    padding: 8px;
+    text-align: center;
+}
+
+.runs_table th:first-child,
+.runs_table td:first-child {
+    border-left: none;
+}
+
+.runs_table th:last-child,
+.runs_table td:last-child {
+    border-right: none;
+}
+
+.runs_table th {
+    font-weight: bold;
+}
+
+.runs_table tr:hover {
+    background-color: #151515; /* highlight row on hover */
+}
+
+.runs_table td {
+    white-space: nowrap;  /* prevent line breaks in cells */
+}
+
+.table-container {
+    overflow-x: auto; /* horizontal scroll on small screens */
+}
