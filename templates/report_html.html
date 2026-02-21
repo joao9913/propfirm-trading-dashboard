@@ -444,21 +444,19 @@
       </div>
     </section>
 
-    <section class="challengeList" id="challengeList">
+    {% for phase, table_html in runs_tables_html.items() %}
+    <section class="challengeList" id="challengeList_{{ phase }}">
       <div class="Subtitle">
         <div class="Text">
-          <p>All Generated CSV Data Organized In A Table</p>
-          <h1><span>Challenge </span>List</h1>
+          <p>Detailed results for all runs in {{ phase | capitalize }}</p>
+          <h1><span>{{ phase | capitalize }}</span> Runs</h1>
         </div>
       </div>
-      {% if runs_tables_html %}
-      {% for phase, table_html in runs_tables_html.items() %}
-        <h2>{{ phase | capitalize }} Runs</h2>
-        <div class="table-container">
-          {{ table_html | safe }}
-        </div>
-      {% endfor %}
-    {% endif %}
+
+      <div class="table-container">
+        {{ table_html | safe }}
+      </div>
     </section>
+    {% endfor %}
   </body>
 </html>

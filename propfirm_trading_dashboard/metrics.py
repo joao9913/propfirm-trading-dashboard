@@ -36,7 +36,10 @@ class MetricsCalculator:
         p1_max_cons_challenge_failed = failed_group.max() if not failed_group.empty else 0
         p1_average_cons_challenge_passed = round(passed_group.mean(), 2) if not passed_group.empty else 0
         p1_average_cons_challenge_failed = round(failed_group.mean(), 2) if not failed_group.empty else 0
-        p1_efficiency_ratio = round(p1_challenge_winrate / p1_average_challenge_duration, 2)
+        p1_efficiency_ratio = round(
+            (p1_challenge_winrate / p1_average_challenge_duration) if p1_average_challenge_duration else 0,
+            2
+        )
 
         metrics_dict = {
             prefix + "_number_passed_challenges": p1_number_passed_challenges,
@@ -66,6 +69,12 @@ class MetricsCalculator:
         payout_rows = df[df["Outcome"] == "Payout"].copy()
         payout_rows["Payout Amount"] = payout_rows["Ending Balance"] - payout_rows["Start Balance"]
         cost_per_challenge = 80
+
+        df["PnL"] = np.where(
+            df["Outcome"] == "Payout",
+            df["Ending Balance"] - df["Start Balance"],
+            np.where(df["Outcome"] == "Failed", -cost_per_challenge, 0)
+        )
 
         p3_number_payouts = (outcome_series == "Payout").sum()
         p3_number_failed_challenges = (outcome_series == "Failed").sum()

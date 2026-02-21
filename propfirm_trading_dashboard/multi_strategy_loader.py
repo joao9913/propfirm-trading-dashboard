@@ -42,7 +42,12 @@ def merge_group_phase(base_path: str, folders: List[str], phase_name: str) -> pd
         dfs.append(df)
 
     if not dfs:
-        return pd.DataFrame()
+        return pd.DataFrame(columns=[
+            "Challenge Number", "Start Phase Date", "End Phase Date", 
+            "Phase", "Outcome", "Reason", "Duration", 
+            "Start Balance", "Ending Balance", "Max Drawdown", 
+            "Profit Target", "Daily Drawdown", "PnL"
+        ])
     
     merged = pd.concat(dfs, ignore_index=True)
 

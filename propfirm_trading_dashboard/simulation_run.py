@@ -58,7 +58,7 @@ def run_single_simulation(filename: str, phase_list: list):
         runs_table=runs_table_df
     )
 
-def build_runs_table(df_dict: dict) -> pd.dict:
+def build_runs_table(df_dict: dict) -> dict:
     tables_per_phase = {}
 
     columns_to_keep = [
@@ -69,18 +69,17 @@ def build_runs_table(df_dict: dict) -> pd.dict:
         "Outcome",
         "Duration",
         "PnL",
-        "Month",
     ]
 
     for phase, df in df_dict.items():
         if df is not None and not df.empty:
             df_copy = df.copy()
-            df_copy["Phase"] = phase
             existing_columns = [col for col in columns_to_keep if col in df_copy]
             df_copy = df_copy[existing_columns]
             df_copy = df_copy.rename(columns={
                 "Start Phase Date": "Start Date",
                 "End Phase Date": "End Date",
+                "Challenge Number": "Run #"
             })
             tables_per_phase[phase] = df_copy
     return tables_per_phase
