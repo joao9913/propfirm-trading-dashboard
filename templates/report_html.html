@@ -42,10 +42,10 @@
               <p>Efficiency Ratio</p>
             </div>
             <div class="Values">
-              <p>{{p1_number_challenges}}</p>
-              <p>{{p1_challenge_winrate}}</p>
-              <p>{{p1_average_challenge_duration}}</p>
-              <p>{{p1_efficiency_ratio}}</p>
+              <p>{{p1_number_challenges| default("0")}}</p>
+              <p>{{p1_challenge_winrate| default("0")}}</p>
+              <p>{{p1_average_challenge_duration| default("0")}}</p>
+              <p>{{p1_efficiency_ratio| default("0")}}</p>
             </div>
           </div>
           <a href="#inDepth">See All ></a>
@@ -60,10 +60,10 @@
               <p>Efficiency Ratio</p>
             </div>
             <div class="Values">
-              <p>{{p2_number_challenges}}</p>
-              <p>{{p2_challenge_winrate}}</p>
-              <p>{{p2_average_challenge_duration}}</p>
-              <p>{{p2_efficiency_ratio}}</p>
+              <p>{{p2_number_challenges| default("0")}}</p>
+              <p>{{p2_challenge_winrate| default("0")}}</p>
+              <p>{{p2_average_challenge_duration| default("0")}}</p>
+              <p>{{p2_efficiency_ratio| default("0")}}</p>
             </div>
           </div>
           <a href="#inDepth">See All ></a>
@@ -79,11 +79,11 @@
               <p>Profitability Ratio</p>
             </div>
             <div class="Values">
-              <p>{{p3_number_challenges}}</p>
-              <p>{{p3_payout_winrate}}</p>
-              <p>{{p3_average_challenge_duration}}</p>
-              <p>{{p3_average_profit_payout}}</p>
-              <p>{{p3_profitability_ratio}}</p>
+              <p>{{p3_number_challenges| default("0")}}</p>
+              <p>{{p3_payout_winrate| default("0")}}</p>
+              <p>{{p3_average_challenge_duration| default("0")}}</p>
+              <p>{{p3_average_profit_payout| default("0")}}</p>
+              <p>{{p3_profitability_ratio| default("0")}}</p>
             </div>
           </div>
           <a href="#inDepth">See All ></a>
@@ -102,12 +102,12 @@
               <p>Efficiency Ratio</p>
             </div>
             <div class="Values">
-              <p>{{c_number_challenges}}</p>
-              <p>{{c_challenge_winrate}}</p>
-              <p>{{c_average_challenge_duration}}</p>
-              <p>{{c_failed_p1_percentage}}</p>
-              <p>{{c_failed_p2_percentage}}</p>
-              <p>{{c_efficiency_ratio}}</p>
+              <p>{{c_number_challenges| default("0")}}</p>
+              <p>{{c_challenge_winrate| default("0")}}</p>
+              <p>{{c_average_challenge_duration| default("0")}}</p>
+              <p>{{c_failed_p1_percentage| default("0")}}</p>
+              <p>{{c_failed_p2_percentage| default("0")}}</p>
+              <p>{{c_efficiency_ratio| default("0")}}</p>
             </div>
           </div>
           <a href="#inDepth">See All ></a>
@@ -126,14 +126,14 @@
               <p>Profitability Ratio</p>
             </div>
             <div class="Values">
-              <p>{{f_number_challenges}}</p>
-              <p>{{f_challenge_winrate}}</p>
-              <p>{{f_average_challenge_duration}}</p>
-              <p>{{f_challenge_efficiency_ratio}}</p>
-              <p>{{f_payout_winrate}}</p>
-              <p>{{f_average_payouts_challenge}}</p>
-              <p>{{f_average_payouts_challenge}}</p>
-              <p>{{f_profitability_ratio}}</p>
+              <p>{{f_number_challenges| default("0")}}</p>
+              <p>{{f_challenge_winrate| default("0")}}</p>
+              <p>{{f_average_challenge_duration| default("0")}}</p>
+              <p>{{f_challenge_efficiency_ratio| default("0")}}</p>
+              <p>{{f_payout_winrate| default("0")}}</p>
+              <p>{{f_average_payouts_challenge| default("0")}}</p>
+              <p>{{f_average_profit_payout| default("0")}}</p>
+              <p>{{f_profitability_ratio| default("0")}}</p>
             </div>
           </div>
           <a href="#inDepth">See All ></a>
@@ -149,8 +149,8 @@
                 <p>Monthly W/L Ratio</p>
               </div>
               <div class="Values">
-                <p>{{m_monthly_winrate}}</p>
-                <p>{{m_monthly_wl_ratio}}</p>
+                <p>{{m_monthly_winrate| default("0")}}</p>
+                <p>{{m_monthly_wl_ratio| default("0")}}</p>
               </div>
             </div>
             <div class="MetricsDiv">
@@ -160,9 +160,9 @@
                 <p>Average Monthly Profit</p>
               </div>
               <div class="Values">
-                <p>{{m_monthly_stability_return_ratio}}</p>
-                <p>{{m_overall_risk_adjusted_returns}}</p>
-                <p>{{m_average_monthly_profit}}</p>
+                <p>{{m_monthly_stability_return_ratio| default("0")}}</p>
+                <p>{{m_overall_risk_adjusted_returns| default("0")}}</p>
+                <p>{{m_average_monthly_profit| default("0")}}</p>
               </div>
             </div>
           </div>
@@ -199,12 +199,12 @@
             <p>Average Challenge Duration Passed</p>
           </div>
           <div class="Values">
-            <p>{{p1_number_challenges}}</p>
-            <p>{{p1_number_passed_challenges}}</p>
-            <p>{{p1_number_failed_challenges}}</p>
-            <p>{{p1_challenge_winrate}}</p>
-            <p>{{p1_average_challenge_duration}}</p>
-            <p>{{p1_average_challenge_passed_duration}}</p>
+            <p>{{p1_number_challenges| default("0")}}</p>
+            <p>{{p1_number_passed_challenges| default("0")}}</p>
+            <p>{{p1_number_failed_challenges| default("0")}}</p>
+            <p>{{p1_challenge_winrate| default("0")}}</p>
+            <p>{{p1_average_challenge_duration| default("0")}}</p>
+            <p>{{p1_average_challenge_passed_duration| default("0")}}</p>
           </div>
         </div>
         <div class="MetricsDiv">
@@ -217,12 +217,12 @@
             <p>Efficiency Ratio</p>
           </div>
           <div class="Values">
-            <p>{{p1_average_challenge_failed_duration}}</p>
-            <p>{{p1_max_cons_challenge_passed}}</p>
-            <p>{{p1_max_cons_challenge_failed}}</p>
-            <p>{{p1_average_cons_challenge_passed}}</p>
-            <p>{{p1_average_cons_challenge_failed}}</p>
-            <p>{{p1_efficiency_ratio}}</p>
+            <p>{{p1_average_challenge_failed_duration| default("0")}}</p>
+            <p>{{p1_max_cons_challenge_passed| default("0")}}</p>
+            <p>{{p1_max_cons_challenge_failed| default("0")}}</p>
+            <p>{{p1_average_cons_challenge_passed| default("0")}}</p>
+            <p>{{p1_average_cons_challenge_failed| default("0")}}</p>
+            <p>{{p1_efficiency_ratio| default("0")}}</p>
           </div>
         </div>
       </div>
@@ -238,14 +238,12 @@
             <p>Average Challenge Duration Passed</p>
           </div>
           <div class="Values">
-            <div class="Values">
-            <p>{{p2_number_challenges}}</p>
-            <p>{{p2_number_passed_challenges}}</p>
-            <p>{{p2_number_failed_challenges}}</p>
-            <p>{{p2_challenge_winrate}}</p>
-            <p>{{p2_average_challenge_duration}}</p>
-            <p>{{p2_average_challenge_passed_duration}}</p>
-          </div>
+            <p>{{p2_number_challenges| default("0")}}</p>
+            <p>{{p2_number_passed_challenges| default("0")}}</p>
+            <p>{{p2_number_failed_challenges| default("0")}}</p>
+            <p>{{p2_challenge_winrate| default("0")}}</p>
+            <p>{{p2_average_challenge_duration| default("0")}}</p>
+            <p>{{p2_average_challenge_passed_duration| default("0")}}</p>
           </div>
         </div>
         <div class="MetricsDiv">
@@ -258,12 +256,12 @@
             <p>Efficiency Ratio</p>
           </div>
           <div class="Values">
-            <p>{{p2_average_challenge_failed_duration}}</p>
-            <p>{{p2_max_cons_challenge_passed}}</p>
-            <p>{{p2_max_cons_challenge_failed}}</p>
-            <p>{{p2_average_cons_challenge_passed}}</p>
-            <p>{{p2_average_cons_challenge_failed}}</p>
-            <p>{{p2_efficiency_ratio}}</p>
+            <p>{{p2_average_challenge_failed_duration| default("0")}}</p>
+            <p>{{p2_max_cons_challenge_passed| default("0")}}</p>
+            <p>{{p2_max_cons_challenge_failed| default("0")}}</p>
+            <p>{{p2_average_cons_challenge_passed| default("0")}}</p>
+            <p>{{p2_average_cons_challenge_failed| default("0")}}</p>
+            <p>{{p2_efficiency_ratio| default("0")}}</p>
           </div>
         </div>
       </div>
@@ -280,13 +278,13 @@
             <p>Average Challenge Duration Failed</p>
           </div>
           <div class="Values">
-            <p>{{p3_number_challenges}}</p>
-            <p>{{p3_number_payouts}}</p>
-            <p>{{p3_number_failed_challenges}}</p>
-            <p>{{p3_payout_winrate}}</p>
-            <p>{{p3_average_challenge_duration}}</p>
-            <p>{{p3_average_challenge_passed_duration}}</p>
-            <p>{{p3_average_challenge_failed_duration}}</p>
+            <p>{{p3_number_challenges| default("0")}}</p>
+            <p>{{p3_number_payouts| default("0")}}</p>
+            <p>{{p3_number_failed_challenges| default("0")}}</p>
+            <p>{{p3_payout_winrate| default("0")}}</p>
+            <p>{{p3_average_challenge_duration| default("0")}}</p>
+            <p>{{p3_average_challenge_passed_duration| default("0")}}</p>
+            <p>{{p3_average_challenge_failed_duration| default("0")}}</p>
           </div>
         </div>
         <div class="MetricsDiv">
@@ -300,13 +298,13 @@
             <p>Profitability Ratio</p>
           </div>
           <div class="Values">
-            <p>{{p3_max_cons_payouts}}</p>
-            <p>{{p3_max_cons_failed}}</p>
-            <p>{{p3_average_profit_payout}}</p>
-            <p>{{p3_total_profit_payouts}}</p>
-            <p>{{p3_total_loss_payouts}}</p>
-            <p>{{p3_profit_factor}}</p>
-            <p>{{p3_profitability_ratio}}</p>
+            <p>{{p3_max_cons_payouts| default("0")}}</p>
+            <p>{{p3_max_cons_failed| default("0")}}</p>
+            <p>{{p3_average_profit_payout| default("0")}}</p>
+            <p>{{p3_total_profit_payouts| default("0")}}</p>
+            <p>{{p3_total_loss_payouts| default("0")}}</p>
+            <p>{{p3_profit_factor| default("0")}}</p>
+            <p>{{p3_profitability_ratio| default("0")}}</p>
           </div>
         </div>
       </div>
@@ -323,13 +321,13 @@
             <p>Average Challenge Duration Failed</p>
           </div>
           <div class="Values">
-            <p>{{c_number_challenges}}</p>
-            <p>{{c_number_passed_challenges}}</p>
-            <p>{{c_number_failed_challenges}}</p>
-            <p>{{c_challenge_winrate}}</p>
-            <p>{{c_average_challenge_duration}}</p>
-            <p>{{c_average_challenge_passed_duration}}</p>
-            <p>{{c_average_challenge_failed_duration}}</p>
+            <p>{{c_number_challenges| default("0")}}</p>
+            <p>{{c_number_passed_challenges| default("0")}}</p>
+            <p>{{c_number_failed_challenges| default("0")}}</p>
+            <p>{{c_challenge_winrate| default("0")}}</p>
+            <p>{{c_average_challenge_duration| default("0")}}</p>
+            <p>{{c_average_challenge_passed_duration| default("0")}}</p>
+            <p>{{c_average_challenge_failed_duration| default("0")}}</p>
           </div>
         </div>
         <div class="MetricsDiv">
@@ -343,13 +341,13 @@
             <p>Efficiency Ratio</p>
           </div>
           <div class="Values">
-            <p>{{c_max_cons_challenge_passed}}</p>
-            <p>{{c_max_cons_challenge_failed}}</p>
-            <p>{{c_average_cons_challenge_passed}}</p>
-            <p>{{c_average_cons_challenge_failed}}</p>
-            <p>{{c_failed_p1_percentage}}</p>
-            <p>{{c_failed_p2_percentage}}</p>
-            <p>{{c_efficiency_ratio}}</p>
+            <p>{{c_max_cons_challenge_passed| default("0")}}</p>
+            <p>{{c_max_cons_challenge_failed| default("0")}}</p>
+            <p>{{c_average_cons_challenge_passed| default("0")}}</p>
+            <p>{{c_average_cons_challenge_failed| default("0")}}</p>
+            <p>{{c_failed_p1_percentage| default("0")}}</p>
+            <p>{{c_failed_p2_percentage| default("0")}}</p>
+            <p>{{c_efficiency_ratio| default("0")}}</p>
           </div>
         </div>
       </div>
@@ -369,16 +367,16 @@
             <p>Average Consecutive Wins</p>
           </div>
           <div class="Values">
-            <p>{{f_number_challenges}}</p>
-            <p>{{f_number_passed_challenges}}</p>
-            <p>{{f_number_failed_challenges}}</p>
-            <p>{{f_challenge_winrate}}</p>
-            <p>{{f_average_challenge_duration}}</p>
-            <p>{{f_average_challenge_passed_duration}}</p>
-            <p>{{f_average_challenge_failed_duration}}</p>
-            <p>{{f_max_cons_challenge_passed}}</p>
-            <p>{{f_max_cons_challenge_failed}}</p>
-            <p>{{f_average_cons_challenge_passed}}</p>
+            <p>{{f_number_challenges| default("0")}}</p>
+            <p>{{f_number_passed_challenges| default("0")}}</p>
+            <p>{{f_number_failed_challenges| default("0")}}</p>
+            <p>{{f_challenge_winrate| default("0")}}</p>
+            <p>{{f_average_challenge_duration| default("0")}}</p>
+            <p>{{f_average_challenge_passed_duration| default("0")}}</p>
+            <p>{{f_average_challenge_failed_duration| default("0")}}</p>
+            <p>{{f_max_cons_challenge_passed| default("0")}}</p>
+            <p>{{f_max_cons_challenge_failed| default("0")}}</p>
+            <p>{{f_average_cons_challenge_passed| default("0")}}</p>
           </div>
         </div>
         <div class="MetricsDiv">
@@ -393,14 +391,14 @@
             <p>Profitability Ratio</p>
           </div>
           <div class="Values">
-            <p>{{f_average_cons_challenge_failed}}</p>
-            <p>{{f_average_profit_challenge}}</p>
-            <p>{{f_challenge_efficiency_ratio}}</p>
-            <p>{{f_payout_winrate}}</p>
-            <p>{{f_max_cons_payouts}}</p>
-            <p>{{f_average_payouts_challenge}}</p>
-            <p>{{f_average_profit_payout}}</p>
-            <p>{{f_profitability_ratio}}</p>
+            <p>{{f_average_cons_challenge_failed| default("0")}}</p>
+            <p>{{f_average_profit_challenge| default("0")}}</p>
+            <p>{{f_challenge_efficiency_ratio| default("0")}}</p>
+            <p>{{f_payout_winrate| default("0")}}</p>
+            <p>{{f_max_cons_payouts| default("0")}}</p>
+            <p>{{f_average_payouts_challenge| default("0")}}</p>
+            <p>{{f_average_profit_payout| default("0")}}</p>
+            <p>{{f_profitability_ratio| default("0")}}</p>
           </div>
         </div>
       </div>
@@ -415,11 +413,11 @@
             <p>Average Monthly Loss</p>
           </div>
           <div class="Values">
-            <p>{{m_winning_months}}</p>
-            <p>{{m_losing_months}}</p>
-            <p>{{m_monthly_winrate}}</p>
-            <p>{{m_average_monthly_profit}}</p>
-            <p>{{m_average_monthly_loss}}</p>
+            <p>{{m_winning_months| default("0")}}</p>
+            <p>{{m_losing_months| default("0")}}</p>
+            <p>{{m_monthly_winrate| default("0")}}</p>
+            <p>{{m_average_monthly_profit| default("0")}}</p>
+            <p>{{m_average_monthly_loss| default("0")}}</p>
           </div>
         </div>
         <div class="MetricsDiv">
@@ -429,9 +427,9 @@
             <p>Overall Risk-Adjusted Returns</p>
           </div>
           <div class="Values">
-            <p>{{m_monthly_wl_ratio}}</p>
-            <p>{{m_monthly_stability_return_ratio}}</p>
-            <p>{{m_overall_risk_adjusted_returns}}</p>
+            <p>{{m_monthly_wl_ratio| default("0")}}</p>
+            <p>{{m_monthly_stability_return_ratio| default("0")}}</p>
+            <p>{{m_overall_risk_adjusted_returns| default("0")}}</p>
           </div>
         </div>
       </div>
@@ -453,6 +451,12 @@
           <h1><span>Challenge </span>List</h1>
         </div>
       </div>
+      {% if runs_table_html %}
+      <h2>All Runs Used in Simulation</h2>
+      <div class="table-container">
+          {{ runs_table_html | safe }}
+      </div>
+      {% endif %}
     </section>
   </body>
 </html>

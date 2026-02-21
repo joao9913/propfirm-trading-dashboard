@@ -36,6 +36,7 @@ def merge_group_phase(base_path: str, folders: List[str], phase_name: str) -> pd
         df = load_csv_file(file_path)
         validate_columns(df)
 
+        df["Strategy_Pair"] = "_".join(folder.split("_")[:2])
         df["Run"] = folder.rsplit("_", 1)[-1]
 
         dfs.append(df)
@@ -47,4 +48,8 @@ def merge_group_phase(base_path: str, folders: List[str], phase_name: str) -> pd
 
     merged["End Phase Date"] = pd.to_datetime(merged["End Phase Date"], format="%Y.%m.%d")
     merged.sort_values("End Phase Date", inplace = True)
+    cols = merged.columns.tolist()
+    if "Strategy_Pair" in cols:
+        cols.insert(0, cols.pop(cols.index("Strategy_Pair")))
+    merged = merged[cols]
     return merged
