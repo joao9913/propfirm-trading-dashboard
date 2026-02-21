@@ -70,4 +70,21 @@ def build_runs_table(df_dict: dict) -> pd.DataFrame:
     if not all_runs:
         return pd.DataFrame()
     
-    return pd.concat(all_runs, ignore_index=True)
+    merged = pd.concat(all_runs, ignore_index=True)
+    merged = merged.rename(columns={
+        "Start Phase Date": "Start Date",
+        "End Phase Date": "End Date",
+    })
+    columns_to_keep=[
+        "Challenge Number",
+        "Start Date",
+        "End Date",
+        "Phase",
+        "Outcome",
+        "Duration",
+        "PnL",
+        "Month",
+    ]
+
+    existing_columns = [col for col in columns_to_keep if col in merged.columns]
+    return merged[existing_columns]
