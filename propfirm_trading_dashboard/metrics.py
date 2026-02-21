@@ -277,8 +277,10 @@ class MetricsCalculator:
         m_average_monthly_loss = round(m_average_monthly_pnl[m_average_monthly_pnl < 0].mean(), 2) if (m_average_monthly_pnl < 0).any() else 0
         m_monthly_wl_ratio = round(m_winning_months / m_losing_months, 2) if m_losing_months > 0 else float('inf')
         f_profitability_ratio = round(((f_payout_winrate / 100) * f_average_payouts_challenge * f_average_profit_payout) / 80, 2)
-        m_monthly_stability_return_ratio = round(((m_monthly_winrate / 100) * m_average_monthly_profit) / (m_average_monthly_loss * -1), 2)
-        f_challenge_efficiency_ratio = round(f_average_profit_challenge / f_number_failed_challenges, 2)
+        if m_average_monthly_loss != 0: m_monthly_stability_return_ratio = round(((m_monthly_winrate / 100) * m_average_monthly_profit) / abs(m_average_monthly_loss),2) 
+        else: m_monthly_stability_return_ratio = 0
+        if f_number_failed_challenges != 0: f_challenge_efficiency_ratio = round(f_average_profit_challenge / f_number_failed_challenges, 2) 
+        else: f_challenge_efficiency_ratio = 0
         m_overall_risk_adjusted_returns = round(f_challenge_efficiency_ratio * m_monthly_stability_return_ratio, 2)
 
         metrics_dict = {
