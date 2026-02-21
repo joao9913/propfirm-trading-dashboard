@@ -11,12 +11,18 @@ def render_report(metrics: dict, template_name: str, filename: str, runs_table=N
     for phase_name, phase_metrics in metrics.items():
         flat_metrics.update(phase_metrics)
     
-    runs_table_html = None
-    if runs_table is not None and not runs_table.empty:
-        runs_table_html = runs_table.to_html(index = False, classes = "runs_table", border=0)
+    runs_table_html = {}
+    if runs_table:
+        for phase, df in runs_table.items():
+            if df is not None and not df.empty:
+                runs_table_html[phase] = df.to_html(index=False, classes="runs_table", border=0)
 
     template = load_template(template_name)
-    output_path  = "reports/" + filename + ".html"
-    html_content = template.render(**flat_metrics, runs_table_html = runs_table_html, FOLDER_NAME = filename)
-    Path(output_path).write_text(html_content, encoding = "utf-8")
+    output_path = "reports/" + filename + ".html"
+    html_content = template.render(
+        **flat_metrics,
+        runs_tables_html=runs_table_html,
+        FOLDER_NAME=filename
+    )
+    Path(output_path).write_text(html_content, encoding="utf-8")
     print(f"Report saved to {output_path}")

@@ -451,11 +451,14 @@
           <h1><span>Challenge </span>List</h1>
         </div>
       </div>
-      {% if runs_table_html %}
-      <div class="table-container">
-          {{ runs_table_html | safe }}
-      </div>
-      {% endif %}
+      {% if runs_tables_html %}
+      {% for phase, table_html in runs_tables_html.items() %}
+        <h2>{{ phase | capitalize }} Runs</h2>
+        <div class="table-container">
+          {{ table_html | safe }}
+        </div>
+      {% endfor %}
+    {% endif %}
     </section>
   </body>
 </html>

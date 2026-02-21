@@ -58,27 +58,13 @@ def run_single_simulation(filename: str, phase_list: list):
         runs_table=runs_table_df
     )
 
-def build_runs_table(df_dict: dict) -> pd.DataFrame:
-    all_runs = []
+def build_runs_table(df_dict: dict) -> pd.dict:
+    tables_per_phase = {}
 
-    for phase, df in df_dict.items():
-        if df is not None and not df.empty:
-            df_copy = df.copy()
-            df_copy["Phase"] = phase
-            all_runs.append(df_copy)
-
-    if not all_runs:
-        return pd.DataFrame()
-    
-    merged = pd.concat(all_runs, ignore_index=True)
-    merged = merged.rename(columns={
-        "Start Phase Date": "Start Date",
-        "End Phase Date": "End Date",
-    })
-    columns_to_keep=[
+    columns_to_keep = [
         "Challenge Number",
-        "Start Date",
-        "End Date",
+        "Start Phase Date",
+        "End Phase Date",
         "Phase",
         "Outcome",
         "Duration",
@@ -86,5 +72,15 @@ def build_runs_table(df_dict: dict) -> pd.DataFrame:
         "Month",
     ]
 
-    existing_columns = [col for col in columns_to_keep if col in merged.columns]
-    return merged[existing_columns]
+    for phase, df in df_dict.items():
+        if df is not None and not df.empty:
+            df_copy = df.copy()
+            df_copy["Phase"] = phase
+            existing_columns = [col for col in columns_to_keep if col in df_copy]
+            df_copy = df_copy[existing_columns]
+            df_copy = df_copy.rename(columns={
+                "Start Phase Date": "Start Date",
+                "End Phase Date": "End Date",
+            })
+            tables_per_phase[phase] = df_copy
+    return tables_per_phase
