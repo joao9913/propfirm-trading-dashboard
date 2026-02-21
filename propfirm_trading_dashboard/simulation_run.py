@@ -22,10 +22,9 @@ def run_joined_simulation(base_path: str, phase_list: list):
         merged_df = merge_group_phase(base_path, all_folders, phase)
         df_dict[phase] = merged_df
 
-    runs_table_df = build_runs_table(df_dict)
-
     calculator = mc(df_dict)
     all_metrics = calculator.calculate_metrics()
+    runs_table_df = build_runs_table(df_dict)
 
     render_report(
         all_metrics,
@@ -62,6 +61,7 @@ def build_runs_table(df_dict: dict) -> dict:
     tables_per_phase = {}
 
     columns_to_keep = [
+        "Strategy_Pair",
         "Challenge Number",
         "Start Phase Date",
         "End Phase Date",

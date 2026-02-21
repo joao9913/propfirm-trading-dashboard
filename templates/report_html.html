@@ -169,8 +169,8 @@
           <a href="#inDepth">See All ></a>
         </div>
       </div>
-      <a href=""></a>
     </section>
+    <a id="return" href="">Return</a> 
 
     <section class="inDepth" id="inDepth">
       <div class="Subtitle">
@@ -434,15 +434,8 @@
         </div>
       </div>
     </section>
-
-    <section class="Monthly" id="monthly">
-      <div class="Subtitle">
-        <div class="Text">
-          <p>Funded Simulation Organized Per Month For Added Realism</p>
-          <h1>Monthly <span>Simulation</span></h1>
-        </div>
-      </div>
-    </section>
+    <a id="return" href="">Return</a>
+    <div id ="challengeList"></div>
 
     {% for phase, table_html in runs_tables_html.items() %}
     <section class="challengeList" id="challengeList_{{ phase }}">
@@ -457,6 +450,17 @@
         {{ table_html | safe }}
       </div>
     </section>
+    <a id="return" href="">Return</a>
     {% endfor %}
+
+    <section class="Monthly" id="monthly">
+      <div class="Subtitle">
+        <div class="Text">
+          <p>Funded Simulation Organized Per Month For Added Realism</p>
+          <h1>Monthly <span>Simulation</span></h1>
+        </div>
+      </div>
+    </section>
+    <a id="return" href="">Return</a>
   </body>
 </html>
