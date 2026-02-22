@@ -30,7 +30,8 @@ def run_joined_simulation(base_path: str, phase_list: list):
         all_metrics,
         "report_html.html",
         report_name,
-        runs_table=runs_table_df
+        runs_table=runs_table_df,
+        monthly_pnl_table = build_monthly_pnl(runs_table_df["funded"])
     )
 
 
@@ -54,7 +55,8 @@ def run_single_simulation(filename: str, phase_list: list):
         all_metrics,
         "report_html.html",
         filename,
-        runs_table=runs_table_df
+        runs_table=runs_table_df,
+        monthly_pnl_table = build_monthly_pnl(runs_table_df["funded"])
     )
 
 def build_runs_table(df_dict: dict) -> dict:
@@ -83,3 +85,29 @@ def build_runs_table(df_dict: dict) -> dict:
             })
             tables_per_phase[phase] = df_copy
     return tables_per_phase
+
+def build_monthly_pnl(runs_table: pd.DataFrame) -> pd.DataFrame:
+    if isinstance(runs_table, dict):
+        df_all = pd.concat([df for df in runs_table.values() if df is not None and not df.empty])
+    else:
+        df_all = runs_table.copy()
+    
+    if 'PnL' not in df_all.columns:
+        df_all['PnL'] = df_all["Ending Balance"] - df_all["Start Balance"]
+    
+    df_all["End Date"] = pd.to_datetime(df_all["End Date"], format="%Y.%m.%d")
+    df_all["Year"] = df_all["End Date"].dt.year
+    df_all["Month"] = df_all["End Date"].dt.month
+
+    monthly = df_all.groupby(["Year", "Month"])["PnL"].sum().reset_index()
+
+    table = monthly.pivot_table(index="Year", columns="Month", values = "PnL",fill_value=0).fillna(0)
+    table.columns.name = None
+
+    month_names = {i: name for i, name in enumerate(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], start=1)}
+    table = table.rename(columns=month_names)
+
+    table["Yearly Total"] = table.sum(axis=1)
+
+    table = table.reset_index().sort_values("Year", ascending=False)
+    return table

@@ -456,10 +456,18 @@
     <section class="Monthly" id="monthly">
       <div class="Subtitle">
         <div class="Text">
-          <p>Funded Simulation Organized Per Month For Added Realism</p>
+          <p>Funded Simulation Organized Per Month/Year</p>
           <h1>Monthly <span>Simulation</span></h1>
         </div>
       </div>
+       {% if monthly_pnl_table_html %}
+      <div class="table-container">
+        {{ monthly_pnl_table_html | safe }}
+      </div>
+      {% else %}
+      <p>No monthly PnL data available for the funded phase.</p>
+      {% endif %}
+
     </section>
     <a id="return" href="">Return</a>
   </body>
