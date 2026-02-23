@@ -262,7 +262,7 @@ class MetricsCalculator:
 
         if df.empty:
             return{
-               "f_number_challenges": 0,
+                "f_number_challenges": 0,
                 "f_number_passed_challenges": 0,
                 "f_number_failed_challenges": 0,
                 "f_challenge_winrate": 0,
@@ -308,20 +308,25 @@ class MetricsCalculator:
         # process each challenge
         for _, group in challenge_groups:
             group = group.sort_values("Phase")
+            p1 = group[group["Phase"] == 1]
+            p2 = group[group["Phase"] == 2]
             payouts = group[group["Outcome"] == "Payout"]
-            total_duration = group["Duration"].sum()
-            challenge_durations.append(total_duration)
+            base_duration = p1["Duration"].sum() + p2["Duration"].sum()
 
             if not payouts.empty:
+                first_payout = payouts.iloc[0]
+                total_duration = base_duration + first_payout["Duration"]
                 f_number_passed_challenges += 1
                 total_payouts += len(payouts)
                 passed_durations.append(total_duration)
                 challenge_outcomes.append("Payout")
                 payout_profits.extend((payouts["Ending Balance"] - payouts["Start Balance"]).tolist())
             else:
+                total_duration = group["Duration"].sum()
                 f_number_failed_challenges += 1
                 failed_durations.append(total_duration)
                 challenge_outcomes.append("Failed")
+            challenge_durations.append(total_duration)
 
         f_challenge_winrate = round((f_number_passed_challenges / f_number_challenges) * 100, 2) if f_number_challenges else 0
         f_payout_winrate = round((total_payouts / (total_payouts + f_number_failed_challenges)) * 100, 2) if (total_payouts + f_number_failed_challenges) else 0

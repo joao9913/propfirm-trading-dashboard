@@ -178,3 +178,123 @@ def test_p3_metrics():
     assert p3["p3_total_loss_payouts"] == 80
     assert p3["p3_profit_factor"] == 10.12
     assert p3["p3_profitability_ratio"] == 33.73
+
+def test_challenge_metrics():
+    df_run = pd.DataFrame({
+    "Challenge Number": [4, 4, 5, 5, 10],
+    "Start Phase Date": ["2013.03.11", "2013.04.15", "2013.04.22", "2013.05.14", "2014.02.24"],
+    "End Phase Date": ["2013.04.15", "2013.04.22", "2013.05.14", "2013.06.26", "2014.03.07"],
+    "Phase": [1, 2, 1, 2, 1],
+    "Outcome": ["Passed", "Passed", "Passed", "Failed", "Failed"],
+    "Reason": ["Profit Target", "Profit Target", "Profit Target", "Max Drawdown", "Max Drawdown"],
+    "Duration": [35, 7, 21, 43, 11],
+    "Start Balance": [13932.62, 14746.41, 15254.41, 16089.73, 17595.13],
+    "Ending Balance": [14746.41, 15254.41, 16089.73, 15068.55, 16595.07],
+    "Max Drawdown": [12932.62, 13746.41, 14254.41, 15089.73, 16595.13],
+    "Profit Target": [14732.62, 15246.41, 16054.41, 16589.73, 18395.13],
+    "Daily Drawdown": [310.59, 159.34, 212.52, 94.50, 302.40]
+    })
+
+    empty_df = pd.DataFrame({
+        "Challenge Number": [],
+        "Start Phase Date": [],
+        "End Phase Date": [],
+        "Phase": [],
+        "Outcome": [],
+        "Reason": [],
+        "Duration": [],
+        "Start Balance": [],
+        "Ending Balance": [],
+        "Max Drawdown": [],
+        "Profit Target": [],
+        "Daily Drawdown": []
+    })
+
+    dfs = {
+        "phase1": empty_df,
+        "phase2": empty_df,
+        "phase3": empty_df,
+        "challenge": df_run,
+        "funded": empty_df
+    }
+
+    calculator = MetricsCalculator(dfs)
+    results = calculator.calculate_metrics()
+    c = results["challenge"]
+
+    assert c["c_number_challenges"] == 3
+    assert c["c_number_passed_challenges"] == 1
+    assert c["c_number_failed_challenges"] == 2
+    assert c["c_challenge_winrate"] == 33.33
+    assert c["c_average_challenge_duration"] == 39
+    assert c["c_average_challenge_passed_duration"] == 42
+    assert c["c_average_challenge_failed_duration"] == 37.5
+    assert c["c_max_cons_challenge_passed"] == 1
+    assert c["c_max_cons_challenge_failed"] == 2
+    assert c["c_average_cons_challenge_passed"] == 1
+    assert c["c_average_cons_challenge_failed"] == 2
+    assert c["c_failed_p1_percentage"] == 50
+    assert c["c_failed_p2_percentage"] == 50
+    assert c["c_efficiency_ratio"] == 0.85
+
+def test_funded_metrics():
+    df_run = pd.DataFrame({
+    "Challenge Number": [1, 1, 1, 1, 1, 2, 3, 3, 3],
+    "Start Phase Date": ["2013.01.01", "2013.01.15", "2013.01.21", "2013.02.04", "2014.02.20", "2014.03.13", "2014.04.04", "2014.04.17", "2014.06.09"],
+    "End Phase Date": ["2013.01.15", "2013.01.21", "2013.02.04", "2013.02.19", "2014.03.13","2014.04.04", "2014.04.17", "2014.06.09", "2014.08.01"],
+    "Phase": [1, 2, 3, 3, 3, 1, 1, 2, 3],
+    "Outcome": ["Passed", "Passed", "Payout", "Payout", "Failed", "Failed", "Passed", "Passed", "Payout"],
+    "Reason": ["Profit Target", "Profit Target", "Payout", "Payout", "Max Drawdown", "Max Drawdown", "Profit Target", "Profit Target", "Payout"],
+    "Duration": [14, 6, 14, 15, 20, 22, 12, 53, 52],
+    "Start Balance": [10000.00, 10801.42, 11306.69, 11706.85, 14249.71, 13241.69, 12239.40, 13050.23, 13569.93],
+    "Ending Balance": [10801.42, 11306.69, 11706.85, 11893.17, 13241.69,12239.40, 13050.23, 13569.93, 13755.28],
+    "Max Drawdown": [9000.00, 9801.42, 10306.69, 10706.85, 13249.71, 12241.69, 11239.40, 12050.23, 12569.93],
+    "Profit Target": [10800.00, 11301.42, 11706.69, 12106.85, 14649.71, 14041.69, 13039.40, 13550.23, 13969.93],
+    "Daily Drawdown": [54.60, 22.40, 0.00, 73.78, 203.68, 118.61, 5.52, 95.94, 26.04]
+    })
+
+    empty_df = pd.DataFrame({
+        "Challenge Number": [],
+        "Start Phase Date": [],
+        "End Phase Date": [],
+        "Phase": [],
+        "Outcome": [],
+        "Reason": [],
+        "Duration": [],
+        "Start Balance": [],
+        "Ending Balance": [],
+        "Max Drawdown": [],
+        "Profit Target": [],
+        "Daily Drawdown": []
+    })
+
+    dfs = {
+        "phase1": empty_df,
+        "phase2": empty_df,
+        "phase3": empty_df,
+        "challenge": empty_df,
+        "funded": df_run
+    }
+
+    calculator = MetricsCalculator(dfs)
+    results = calculator.calculate_metrics()
+    f = results["funded"]
+
+    assert f["f_number_challenges"] == 3
+    assert f["f_number_passed_challenges"] == 2
+    assert f["f_number_failed_challenges"] == 1
+    assert f["f_challenge_winrate"] == 66.67
+    assert f["f_average_challenge_duration"] == 57.67
+    assert f["f_average_challenge_passed_duration"] == 75.5
+    assert f["f_average_challenge_failed_duration"] == 22
+    assert f["f_max_cons_challenge_passed"] == 1
+    assert f["f_max_cons_challenge_failed"] == 1
+    assert f["f_average_cons_challenge_passed"] == 1
+    assert f["f_average_cons_challenge_failed"] == 1
+    assert f["f_average_profit_challenge"] == 230.61
+    assert f["f_challenge_efficiency_ratio"] == 230.61
+    assert f["f_payout_winrate"] == 75
+    assert f["f_max_cons_payouts"] == 2
+    assert f["f_average_payouts_challenge"] == 1.5
+    assert f["f_average_profit_payout"] == 257.28
+    assert f["f_profitability_ratio"] == 3.62
