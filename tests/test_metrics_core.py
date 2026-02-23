@@ -47,8 +47,7 @@ def test_empty_data():
         assert value == 0
     
     for key, value in f.items():
-        assert value == 0
-        
+        assert value == 0  
 
 def test_p1_p2_metrics():
     df_phase1 = pd.DataFrame({
@@ -119,3 +118,63 @@ def test_p1_p2_metrics():
     assert p2["p2_average_cons_challenge_passed"] == 2
     assert p2["p2_average_cons_challenge_failed"] == 1
     assert p2["p2_efficiency_ratio"] == 3.23
+
+def test_p3_metrics():
+    df_run = pd.DataFrame({
+        "Challenge Number": [1, 2, 3],
+        "Start Phase Date": ["2013.01.01", "2013.01.15", "2013.01.21"],
+        "End Phase Date": ["2013.01.15", "2013.01.21", "2013.02.07"],
+        "Phase": [3, 3, 3],
+        "Outcome": ["Payout", "Payout", "Failed"],
+        "Reason": ["Payout", "Payout", "Max Drawdown"],
+        "Duration": [14, 6, 42],
+        "Start Balance": [10000.00, 10402.58, 13713.90],
+        "Ending Balance": [10402.58, 10809.36, 12705.88],
+        "Max Drawdown": [9000.00, 9402.58, 12713.90],
+        "Profit Target": [10400, 10802.58, 14113.90],
+        "Daily Drawdown": [0.00, 0.00, 203.68]
+    })
+
+    empty_df = pd.DataFrame({
+        "Challenge Number": [],
+        "Start Phase Date": [],
+        "End Phase Date": [],
+        "Phase": [],
+        "Outcome": [],
+        "Reason": [],
+        "Duration": [],
+        "Start Balance": [],
+        "Ending Balance": [],
+        "Max Drawdown": [],
+        "Profit Target": [],
+        "Daily Drawdown": []
+    })
+
+    dfs = {
+        "phase1": empty_df,
+        "phase2": empty_df,
+        "phase3": df_run,
+        "challenge": empty_df,
+        "funded": empty_df
+    }
+
+    calculator = MetricsCalculator(dfs)
+    results = calculator.calculate_metrics()
+    p3 = results["phase3"]
+
+    assert p3["p3_number_payouts"] == 2
+    assert p3["p3_number_failed_challenges"] == 1
+    assert p3["p3_number_challenges"] == 3
+    assert p3["p3_payout_winrate"] == 66.67
+    assert p3["p3_average_challenge_duration"] == 20.67
+    assert p3["p3_average_challenge_passed_duration"] == 10
+    assert p3["p3_average_challenge_failed_duration"] == 42
+    assert p3["p3_max_cons_payouts"] == 2
+    assert p3["p3_max_cons_failed"] == 1
+    assert p3["p3_average_max_cons_payouts"] == 2
+    assert p3["p3_average_max_cons_failed"] == 1
+    assert p3["p3_average_profit_payout"] == 404.68
+    assert p3["p3_total_profit_payouts"] == 809.36
+    assert p3["p3_total_loss_payouts"] == 80
+    assert p3["p3_profit_factor"] == 10.12
+    assert p3["p3_profitability_ratio"] == 33.73
