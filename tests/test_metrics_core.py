@@ -44,6 +44,7 @@ def test_p1_p2_metrics():
     calculator = MetricsCalculator(dfs)
     results = calculator.calculate_metrics()
     p1 = results["phase1"]
+    p2 = results["phase2"]
 
     assert p1["p1_number_passed_challenges"] == 2
     assert p1["p1_number_failed_challenges"] == 1
@@ -57,3 +58,16 @@ def test_p1_p2_metrics():
     assert p1["p1_average_cons_challenge_passed"] == 2
     assert p1["p1_average_cons_challenge_failed"] == 1
     assert p1["p1_efficiency_ratio"] == 3.23
+
+    assert p2["p2_number_passed_challenges"] == 2
+    assert p2["p2_number_failed_challenges"] == 1
+    assert p2["p2_number_challenges"] == 3
+    assert p2["p2_challenge_winrate"] == 66.67
+    assert p2["p2_max_cons_challenge_passed"] == 2
+    assert p2["p2_max_cons_challenge_failed"] == 1
+    assert p2["p2_average_challenge_duration"] == 20.67
+    assert p2["p2_average_challenge_passed_duration"] == 10
+    assert p2["p2_average_challenge_failed_duration"] == 42
+    assert p2["p2_average_cons_challenge_passed"] == 2
+    assert p2["p2_average_cons_challenge_failed"] == 1
+    assert p2["p2_efficiency_ratio"] == 3.23
