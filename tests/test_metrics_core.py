@@ -2,6 +2,54 @@ import pandas as pd
 import pytest
 from propfirm_trading_dashboard.metrics import MetricsCalculator
 
+def test_empty_data():
+    empty_df = pd.DataFrame({
+        "Challenge Number": [],
+        "Start Phase Date": [],
+        "End Phase Date": [],
+        "Phase": [],
+        "Outcome": [],
+        "Reason": [],
+        "Duration": [],
+        "Start Balance": [],
+        "Ending Balance": [],
+        "Max Drawdown": [],
+        "Profit Target": [],
+        "Daily Drawdown": []
+    })
+
+    dfs = {
+        "phase1": empty_df,
+        "phase2": empty_df,
+        "phase3": empty_df,
+        "challenge": empty_df,
+        "funded": empty_df
+    }
+
+    calculator = MetricsCalculator(dfs)
+    results = calculator.calculate_metrics()
+    p1 = results["phase1"]
+    p2 = results["phase2"]
+    p3 = results["phase3"]
+    c = results["challenge"]
+    f = results["funded"]
+
+    for key, value in p1.items():
+        assert value == 0
+    
+    for key, value in p2.items():
+        assert value == 0
+    
+    for key, value in p3.items():
+        assert value == 0
+    
+    for key, value in c.items():
+        assert value == 0
+    
+    for key, value in f.items():
+        assert value == 0
+        
+
 def test_p1_p2_metrics():
     df_phase1 = pd.DataFrame({
         "Challenge Number": [1, 2, 3],
