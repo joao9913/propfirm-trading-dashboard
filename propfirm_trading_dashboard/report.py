@@ -18,8 +18,33 @@ def render_report(metrics: dict, template_name: str, filename: str, runs_table=N
                 runs_table_html[phase] = df.to_html(index=False, classes="runs_table", border=0)
     
     monthly_pnl_html = None
+
     if monthly_pnl_table is not None and not monthly_pnl_table.empty:
-        monthly_pnl_html = monthly_pnl_table.to_html(index=False, classes="runs_table", border=0)
+        def format_pnl(val):
+            if isinstance(val, (int, float)):
+                formatted = f"{val:,.2f}"
+
+                if val < 0:
+                    return f'<span class="neg">{formatted}</span>'
+                elif val > 0:
+                    return f'<span class="pos">{formatted}</span>'
+                else:
+                    return formatted
+
+            return val
+
+        styled_table = monthly_pnl_table.copy()
+
+        for col in styled_table.columns:
+            if col != "Year":
+                styled_table[col] = styled_table[col].apply(format_pnl)
+
+        monthly_pnl_html = styled_table.to_html(
+            index=False,
+            classes="runs_table",
+            border=0,
+            escape=False
+        )
 
     template = load_template(template_name)
     output_path = "reports/" + filename + ".html"

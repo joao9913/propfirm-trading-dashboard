@@ -94,6 +94,8 @@ def build_monthly_pnl(runs_table: pd.DataFrame) -> pd.DataFrame:
     
     if 'PnL' not in df_all.columns:
         df_all['PnL'] = df_all["Ending Balance"] - df_all["Start Balance"]
+
+    df_all.loc[df_all["PnL"] > 0, "PnL"] *= 0.67
     
     df_all["End Date"] = pd.to_datetime(df_all["End Date"], format="%Y.%m.%d")
     df_all["Year"] = df_all["End Date"].dt.year

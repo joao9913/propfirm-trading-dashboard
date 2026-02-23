@@ -32,7 +32,7 @@ body{
     color: var(--primary-text-color);
     font-family: Poppins;
     font-weight: 300;
-    font-size: 12px;
+    font-size: 14px;
     margin: 0;
     padding: 0;
     letter-spacing: 0.1rem;
@@ -336,8 +336,8 @@ h2{
 }
 
 .runs_table th, .runs_table td {
-    border-left: 2px solid var(--button-border-color);
-    border-right: 2px solid var(--button-border-color);
+    /*border-left: 2px solid var(--button-border-color);
+    border-right: 2px solid var(--button-border-color);*/
     padding: 8px;
     text-align: center;
 }
@@ -353,7 +353,10 @@ h2{
 }
 
 .runs_table th {
-    font-weight: bold;
+    font-weight: 600;
+    color: #2ac8c8b6;
+    font-size: 13px;
+    border-bottom: 1px solid var(--button-border-color);
 }
 
 .runs_table tr:hover {
@@ -362,6 +365,7 @@ h2{
 
 .runs_table td {
     white-space: nowrap;  /* prevent line breaks in cells */
+    font-size: 12px;
 }
 
 .table-container {
@@ -370,4 +374,13 @@ h2{
 
 #return{
     margin-top: 25px;
+}
+
+.neg {
+    color: #e74c3c;
+    font-weight: 300;
+}
+
+.pos{
+    font-weight: 300;
 }
