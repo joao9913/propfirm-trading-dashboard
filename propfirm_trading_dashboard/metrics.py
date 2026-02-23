@@ -20,6 +20,23 @@ class MetricsCalculator:
     def _calculate_metrics_phase1_2(self, phasename: str):
         df = self.dfs[phasename]
         prefix = "p1" if phasename == "phase1" else "p2" if phasename == "phase2" else None
+
+        if df.empty:
+            return{
+                prefix + "_number_passed_challenges": 0,
+                prefix + "_number_failed_challenges": 0,
+                prefix + "_number_challenges": 0,
+                prefix + "_challenge_winrate": 0,
+                prefix + "_average_challenge_duration": 0,
+                prefix + "_average_challenge_passed_duration": 0,
+                prefix + "_average_challenge_failed_duration": 0,
+                prefix + "_max_cons_challenge_passed": 0,
+                prefix + "_max_cons_challenge_failed": 0,
+                prefix + "_average_cons_challenge_passed": 0,
+                prefix + "_average_cons_challenge_failed": 0,
+                prefix + "_efficiency_ratio": 0,
+            }
+
         df["Duration"] = df["Duration"].astype(float)
         outcome_series = df["Outcome"]
         passed_group = self._calculate_consecutive_metrics(outcome_series, "Passed")
@@ -60,6 +77,27 @@ class MetricsCalculator:
         
     def _calculate_metrics_phase3(self):
         df = self.dfs["phase3"]
+        
+        if df.empty:
+            return{
+                "p3_number_payouts": 0,
+                "p3_number_failed_challenges": 0,
+                "p3_number_challenges": 0,
+                "p3_payout_winrate": 0,
+                "p3_average_challenge_duration": 0,
+                "p3_average_challenge_passed_duration": 0,
+                "p3_average_challenge_failed_duration": 0,
+                "p3_max_cons_payouts": 0,
+                "p3_max_cons_failed": 0,
+                "p3_average_max_cons_payouts": 0,
+                "p3_average_max_cons_failed": 0,
+                "p3_average_profit_payout": 0,
+                "p3_total_profit_payouts": 0,
+                "p3_total_loss_payouts": 0,
+                "p3_profit_factor": 0,
+                "p3_profitability_ratio": 0,
+            }
+
         df["Duration"] = df["Duration"].astype(float)
         df["Start Balance"] = df["Start Balance"].astype(float)
         df["Ending Balance"] = df["Ending Balance"].astype(float)
@@ -116,6 +154,25 @@ class MetricsCalculator:
     
     def _calculate_metrics_challenge(self):
         df = self.dfs["challenge"].reset_index(drop = False).rename(columns={"index": "_row_index"})
+
+        if df.empty:
+            return{
+                "c_number_challenges": 0,
+                "c_number_passed_challenges": 0,
+                "c_number_failed_challenges": 0,
+                "c_challenge_winrate": 0,
+                "c_average_challenge_duration": 0,
+                "c_average_challenge_passed_duration": 0,
+                "c_average_challenge_failed_duration": 0,
+                "c_max_cons_challenge_passed": 0,
+                "c_max_cons_challenge_failed": 0,
+                "c_average_cons_challenge_passed": 0,
+                "c_average_cons_challenge_failed": 0,
+                "c_failed_p1_percentage": 0,
+                "c_failed_p2_percentage": 0,
+                "c_efficiency_ratio": 0
+            }
+
         df["Outcome"] = df["Outcome"].astype(str).str.strip()
         df["Phase"] = pd.to_numeric(df["Phase"], errors = "coerce").fillna(0).astype(int)
         df["Duration"] = pd.to_numeric(df["Duration"], errors = "coerce").fillna(0)
@@ -202,6 +259,37 @@ class MetricsCalculator:
 
     def _calculate_metrics_funded(self):
         df = self.dfs["funded"]
+
+        if df.empty:
+            return{
+               "f_number_challenges": 0,
+                "f_number_passed_challenges": 0,
+                "f_number_failed_challenges": 0,
+                "f_challenge_winrate": 0,
+                "f_payout_winrate": 0,
+                "f_average_challenge_duration": 0,
+                "f_average_challenge_passed_duration": 0,
+                "f_average_challenge_failed_duration": 0,
+                "f_max_cons_challenge_passed": 0,
+                "f_max_cons_challenge_failed": 0,
+                "f_average_cons_challenge_passed": 0,
+                "f_average_cons_challenge_failed": 0,
+                "f_max_cons_payouts": 0,
+                "f_average_payouts_challenge": 0,
+                "f_average_profit_payout": 0,
+                "f_average_profit_challenge": 0,
+                "m_winning_months": 0,
+                "m_losing_months": 0,
+                "m_monthly_winrate": 0,
+                "m_average_monthly_profit": 0,
+                "m_average_monthly_loss": 0,
+                "m_monthly_wl_ratio": 0,
+                "f_challenge_efficiency_ratio": 0,
+                "m_overall_risk_adjusted_returns": 0,
+                "f_profitability_ratio": 0,
+                "m_monthly_stability_return_ratio": 0 
+            }
+
         df["Outcome"] = df["Outcome"].astype(str).str.strip()
         df["Phase"] = pd.to_numeric(df["Phase"], errors = "coerce").fillna(0).astype(int)
         df["Duration"] = pd.to_numeric(df["Duration"], errors = "coerce").fillna(0)
