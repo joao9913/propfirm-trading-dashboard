@@ -440,22 +440,22 @@ def test_joined_p3_metrics():
     results = calculator.calculate_metrics()
     p3 = results["phase3"]
 
-    #assert p3["p3_number_payouts"] == 0
-    #assert p3["p3_number_failed_challenges"] == 0
-    #assert p3["p3_number_challenges"] == 0
-    #assert p3["p3_payout_winrate"] == 0
-    #assert p3["p3_average_challenge_duration"] == 0
-    #assert p3["p3_average_challenge_passed_duration"] == 0
-    #assert p3["p3_average_challenge_failed_duration"] == 0
-    #assert p3["p3_max_cons_payouts"] == 0
-    #assert p3["p3_max_cons_failed"] == 0
-    #assert p3["p3_average_max_cons_payouts"] == 0
-    #assert p3["p3_average_max_cons_failed"] == 0
-    #assert p3["p3_average_profit_payout"] == 0
-    #assert p3["p3_total_profit_payouts"] == 0
-    #assert p3["p3_total_loss_payouts"] == 0
-    #assert p3["p3_profit_factor"] == 0
-    #assert p3["p3_profitability_ratio"] == 0
+    assert p3["p3_number_payouts"] == 6
+    assert p3["p3_number_failed_challenges"] == 1
+    assert p3["p3_number_challenges"] == 7
+    assert p3["p3_payout_winrate"] == 85.71
+    assert p3["p3_average_challenge_duration"] == 15.29
+    assert p3["p3_average_challenge_passed_duration"] == 14.0
+    assert p3["p3_average_challenge_failed_duration"] == 23
+    assert p3["p3_max_cons_payouts"] == 3
+    assert p3["p3_max_cons_failed"] == 1
+    assert p3["p3_average_max_cons_payouts"] == 3
+    assert p3["p3_average_max_cons_failed"] == 1
+    assert p3["p3_average_profit_payout"] == 369.31
+    assert p3["p3_total_profit_payouts"] == 2215.86
+    assert p3["p3_total_loss_payouts"] == 80
+    assert p3["p3_profit_factor"] == 27.7
+    assert p3["p3_profitability_ratio"] == 39.57
 
 def test_joined_challenge_metrics():
     data = [
@@ -519,20 +519,20 @@ def test_joined_challenge_metrics():
     results = calculator.calculate_metrics()
     c = results["challenge"]
 
-    #assert c["c_number_challenges"] == 0
-    #assert c["c_number_passed_challenges"] == 0
-    #assert c["c_number_failed_challenges"] == 0
-    #assert c["c_challenge_winrate"] == 0
-    #assert c["c_average_challenge_duration"] == 0
-    #assert c["c_average_challenge_passed_duration"] == 0
-    #assert c["c_average_challenge_failed_duration"] == 0
-    #assert c["c_max_cons_challenge_passed"] == 0
-    #assert c["c_max_cons_challenge_failed"] == 0
-    #assert c["c_average_cons_challenge_passed"] == 0
-    #assert c["c_average_cons_challenge_failed"] == 0
-    #assert c["c_failed_p1_percentage"] == 0
-    #assert c["c_failed_p2_percentage"] == 0
-    #assert c["c_efficiency_ratio"] == 0
+    assert c["c_number_challenges"] == 7
+    #assert c["c_number_passed_challenges"] == 4
+    #assert c["c_number_failed_challenges"] == 3
+    #assert c["c_challenge_winrate"] == 57.14
+    #assert c["c_average_challenge_duration"] == 19.43
+    #assert c["c_average_challenge_passed_duration"] == 18.75
+    #assert c["c_average_challenge_failed_duration"] == 20.33
+    #assert c["c_max_cons_challenge_passed"] == 2
+    #assert c["c_max_cons_challenge_failed"] == 2
+    #assert c["c_average_cons_challenge_passed"] == 1.33
+    #assert c["c_average_cons_challenge_failed"] == 1.5
+    #assert c["c_failed_p1_percentage"] == 33.33
+    #assert c["c_failed_p2_percentage"] == 66.67
+    #assert c["c_efficiency_ratio"] == 2.94
 
 def test_joined_funded_metrics():
     data = [

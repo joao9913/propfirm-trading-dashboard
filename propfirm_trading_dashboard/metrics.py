@@ -177,44 +177,42 @@ class MetricsCalculator:
         df["Phase"] = pd.to_numeric(df["Phase"], errors = "coerce").fillna(0).astype(int)
         df["Duration"] = pd.to_numeric(df["Duration"], errors = "coerce").fillna(0)
 
-        #Group all phases by challenge
-        challenge_groups = df.groupby("Challenge Number")
+        #Group all phases by challenge and by strategies
+        if "Strategy_Pair" not in df.columns:
+            df["Strategy_Pair"] = "Single_Run"
+
         challenge_records = []
-        failed_p1_count = failed_p2_count = 0
+        for strategy, strategy_df in df.groupby("Strategy_Pair"):
+            for challenge_num, group in strategy_df.groupby("Challenge Number"):
+                p1 = group[group["Phase"] == 1]
+                p2 = group[group["Phase"] == 2]
+                total_duration = group["Duration"].sum()
 
-        for (keys), group in challenge_groups:
-            p1 = group[group["Phase"] == 1]
-            p2 = group[group["Phase"] == 2]
-            total_duration = group["Duration"].sum()
-
-            if not p2.empty:
-                completion_row = p2["_row_index"].min()
-            else:
-                completion_row = p1["_row_index"].min() if not p1.empty else group["_row_index"].min()
-            
-            if (not p1.empty and not p2.empty
-                and p1["Outcome"].iloc[0] == "Passed"
-                and p2["Outcome"].iloc[0] == "Passed"):
-                outcome = "Passed"
-            else:
-                outcome = "Failed"
-                if not p1.empty and p1["Outcome"].iloc[0] == "Failed":
-                    failed_p1_count += 1
-                elif not p2.empty and p2["Outcome"].iloc[0] == "Failed":
-                    failed_p2_count += 1
+                if not p2.empty:
+                    completion_row = p2["_row_index"].min()
                 else:
-                    failed_p1_count += 1
-            
-            challenge_records.append({
-                "keys": keys,
-                "Outcome": outcome,
-                "Duration": total_duration,
-                "completion_row": completion_row
-            })
+                    completion_row = p1["_row_index"].min() if not p1.empty else group["_row_index"].min()
+
+                if not p1.empty and not p2.empty and p1["Outcome"].iloc[0] == "Passed" and p2["Outcome"].iloc[0] == "Passed":
+                    outcome = "Passed"
+                else:
+                    outcome = "Failed"
+                
+                challenge_records.append({
+                    "Strategy_Pair": strategy,
+                    "Challenge Number": challenge_num,
+                    "Outcome": outcome,
+                    "Duration": total_duration,
+                    "completion_row": completion_row
+                })
 
         # sort by actual completion order
         challenge_df = pd.DataFrame(challenge_records).sort_values("completion_row").reset_index(drop=True)
 
+        failed_challenges = df[df["Outcome"] == "Failed"]
+        failed_p1_count = failed_challenges[failed_challenges["Phase"] == 1]["Challenge Number"].nunique()
+        failed_p2_count = failed_challenges[failed_challenges["Phase"] == 2]["Challenge Number"].nunique()
+        
         # consecutive streaks based on chronological completion
         series = challenge_df["Outcome"]
         groups = (series != series.shift()).cumsum()
