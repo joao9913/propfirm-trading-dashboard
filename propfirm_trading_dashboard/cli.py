@@ -1,4 +1,5 @@
 from simulation_run import run_single_simulation, run_joined_simulation
+from pathlib import Path
 
 phase_list = ["phase1", "phase2", "phase3", "challenge", "funded"]
 
@@ -14,7 +15,14 @@ while True:
         break
 
     elif choice == "1":
-        folder_name = input("Enter strategy folder name: ").strip()
+        while True:
+            folder_name = input("Enter strategy folder name: ").strip()
+            folder_path = Path(folder_name)
+            if folder_path.is_dir():
+                break;
+            else:
+                print("Folder does not exist. Please enter a valid run name.")
+                
         run_single_simulation(folder_name, phase_list)
 
     elif choice == "2":
