@@ -520,19 +520,19 @@ def test_joined_challenge_metrics():
     c = results["challenge"]
 
     assert c["c_number_challenges"] == 7
-    #assert c["c_number_passed_challenges"] == 4
-    #assert c["c_number_failed_challenges"] == 3
-    #assert c["c_challenge_winrate"] == 57.14
-    #assert c["c_average_challenge_duration"] == 19.43
-    #assert c["c_average_challenge_passed_duration"] == 18.75
-    #assert c["c_average_challenge_failed_duration"] == 20.33
-    #assert c["c_max_cons_challenge_passed"] == 2
-    #assert c["c_max_cons_challenge_failed"] == 2
-    #assert c["c_average_cons_challenge_passed"] == 1.33
-    #assert c["c_average_cons_challenge_failed"] == 1.5
-    #assert c["c_failed_p1_percentage"] == 33.33
-    #assert c["c_failed_p2_percentage"] == 66.67
-    #assert c["c_efficiency_ratio"] == 2.94
+    assert c["c_number_passed_challenges"] == 4
+    assert c["c_number_failed_challenges"] == 3
+    assert c["c_challenge_winrate"] == 57.14
+    assert c["c_average_challenge_duration"] == 19.43
+    assert c["c_average_challenge_passed_duration"] == 18.75
+    assert c["c_average_challenge_failed_duration"] == 20.33
+    assert c["c_max_cons_challenge_passed"] == 2
+    assert c["c_max_cons_challenge_failed"] == 2
+    assert c["c_average_cons_challenge_passed"] == 1.33
+    assert c["c_average_cons_challenge_failed"] == 1.5
+    assert c["c_failed_p1_percentage"] == 33.33
+    assert c["c_failed_p2_percentage"] == 66.67
+    assert c["c_efficiency_ratio"] == 2.94
 
 def test_joined_funded_metrics():
     data = [
@@ -597,21 +597,21 @@ def test_joined_funded_metrics():
     results = calculator.calculate_metrics()
     f = results["funded"]
 
-    #assert f["f_number_challenges"] == 0
-    #assert f["f_number_passed_challenges"] == 0
-    #assert f["f_number_failed_challenges"] == 0
-    #assert f["f_challenge_winrate"] == 0
-    #assert f["f_average_challenge_duration"] == 0
-    #assert f["f_average_challenge_passed_duration"] == 0
-    #assert f["f_average_challenge_failed_duration"] == 0
-    #assert f["f_max_cons_challenge_passed"] == 0
-    #assert f["f_max_cons_challenge_failed"] == 0
-    #assert f["f_average_cons_challenge_passed"] == 0
-    #assert f["f_average_cons_challenge_failed"] == 0
-    #assert f["f_average_profit_challenge"] == 0
-    #assert f["f_challenge_efficiency_ratio"] == 0
-    #assert f["f_payout_winrate"] == 0
-    #assert f["f_max_cons_payouts"] == 0
-    #assert f["f_average_payouts_challenge"] == 0
-    #assert f["f_average_profit_payout"] == 0
-    #assert f["f_profitability_ratio"] == 0
+    assert f["f_number_challenges"] == 5
+    assert f["f_number_passed_challenges"] == 2
+    assert f["f_number_failed_challenges"] == 3
+    assert f["f_challenge_winrate"] == 40
+    assert f["f_average_challenge_duration"] == 23.40
+    assert f["f_average_challenge_passed_duration"] == 28.0
+    assert f["f_average_challenge_failed_duration"] == 20.33
+    assert f["f_max_cons_challenge_passed"] == 1
+    assert f["f_max_cons_challenge_failed"] == 2
+    assert f["f_average_cons_challenge_passed"] == 1.0
+    assert f["f_average_cons_challenge_failed"] == 1.5
+    assert f["f_average_profit_challenge"] == 311.31
+    assert f["f_challenge_efficiency_ratio"] == 103.77
+    assert f["f_payout_winrate"] == 62.50
+    assert f["f_max_cons_payouts"] == 2                            #WRONG
+    assert f["f_average_payouts_challenge"] == 2.5
+    assert f["f_average_profit_payout"] == 359.31
+    assert f["f_profitability_ratio"] == 7.02
