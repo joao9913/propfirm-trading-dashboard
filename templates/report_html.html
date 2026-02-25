@@ -385,7 +385,6 @@
             <p>Average Profit Per Challenge</p>
             <p>Challenge Efficiency Ratio</p>
             <p>Payout Winrate</p>
-            <p>Maximum Consecutive Payouts</p>
             <p>Average Payouts Per Challenge</p>
             <p>Average Profit Per Payout</p>
             <p>Profitability Ratio</p>
@@ -436,22 +435,6 @@
     <a id="return" href="">Return</a>
     <div id ="challengeList"></div>
 
-    {% for phase, table_html in runs_tables_html.items() %}
-    <section class="challengeList" id="challengeList_{{ phase }}">
-      <div class="Subtitle">
-        <div class="Text">
-          <p>Detailed results for all runs in {{ phase | capitalize }}</p>
-          <h1><span>{{ phase | capitalize }}</span> Runs</h1>
-        </div>
-      </div>
-
-      <div class="table-container">
-        {{ table_html | safe }}
-      </div>
-    </section>
-    <a id="return" href="">Return</a>
-    {% endfor %}
-
     <section class="Monthly" id="monthly">
       <div class="Subtitle">
         <div class="Text">
@@ -469,5 +452,21 @@
 
     </section>
     <a id="return" href="">Return</a>
+
+    {% for phase, table_html in runs_tables_html.items() %}
+    <section class="challengeList" id="challengeList_{{ phase }}">
+      <div class="Subtitle">
+        <div class="Text">
+          <p>Detailed results for all runs in {{ phase | capitalize }}</p>
+          <h1><span>{{ phase | capitalize }}</span> Runs</h1>
+        </div>
+      </div>
+
+      <div class="table-container">
+        {{ table_html | safe }}
+      </div>
+    </section>
+    <a id="return" href="">Return</a>
+    {% endfor %}
   </body>
 </html>

@@ -113,3 +113,15 @@ def build_monthly_pnl(runs_table: pd.DataFrame) -> pd.DataFrame:
 
     table = table.reset_index().sort_values("Year", ascending=False)
     return table
+
+def build_funded_outcomes(runs_table: pd.DataFrame) -> pd.DataFrame:
+    if isinstance(runs_table, dict):
+        df_all = pd.concat([df for df in runs_table.values() if df is not None and not df.empty])
+    else:
+        df_all = runs_table.copy()
+    
+    if 'PnL' not in df_all.columns:
+        df_all['PnL'] = df_all["Ending Balance"] - df_all["Start Balance"]
+    df_all.loc[df_all["PnL"] > 0, "PnL"] *= 0.67
+
+    
