@@ -294,7 +294,6 @@ def test_single_funded_metrics():
     assert f["f_average_profit_challenge"] == 230.61
     assert f["f_challenge_efficiency_ratio"] == 230.61
     assert f["f_payout_winrate"] == 75
-    assert f["f_max_cons_payouts"] == 2
     assert f["f_average_payouts_challenge"] == 1.5
     assert f["f_average_profit_payout"] == 257.28
     assert f["f_profitability_ratio"] == 3.62
@@ -611,7 +610,6 @@ def test_joined_funded_metrics():
     assert f["f_average_profit_challenge"] == 311.31
     assert f["f_challenge_efficiency_ratio"] == 103.77
     assert f["f_payout_winrate"] == 62.50
-    assert f["f_max_cons_payouts"] == 2                            #WRONG
     assert f["f_average_payouts_challenge"] == 2.5
     assert f["f_average_profit_payout"] == 359.31
     assert f["f_profitability_ratio"] == 7.02

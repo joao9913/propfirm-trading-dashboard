@@ -446,7 +446,6 @@ class MetricsCalculator:
             "f_max_cons_challenge_failed": f_max_cons_challenge_failed,
             "f_average_cons_challenge_passed": f_average_cons_challenge_passed,
             "f_average_cons_challenge_failed": f_average_cons_challenge_failed,
-            "f_max_cons_payouts": f_max_cons_payouts,
             "f_average_payouts_challenge": f_average_payouts_challenge,
             "f_average_profit_payout": f_average_profit_payout,
             "f_average_profit_challenge": f_average_profit_challenge,
